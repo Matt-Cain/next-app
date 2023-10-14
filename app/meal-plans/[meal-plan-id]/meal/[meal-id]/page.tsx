@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { gql } from '@apollo/client';
-import { getClient } from '@/utils/ApolloClient';
+import { getClient } from '@/utils/apollo/standaloneClient';
 
 const mealQuery = gql`
   query Meal($mealId: ID!) {

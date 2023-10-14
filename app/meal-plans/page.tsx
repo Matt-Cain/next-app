@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { gql } from '@apollo/client';
 import { Card } from '@mantine/core';
-import { getClient } from '@/utils/ApolloClient';
+import { getClient } from '@/utils/apollo/standaloneClient';
 
 const mealPlansQuery = gql`
   {
@@ -24,7 +24,7 @@ const rangeToDate = (range) => {
   return `${timestampToDate(start)} - ${timestampToDate(end)}`;
 };
 
-const Podcasts = async () => {
+const MealPlans = async () => {
   const { data } = await getClient().query({ query: mealPlansQuery });
   const mealPlans = data?.mealPlans;
 
@@ -46,4 +46,4 @@ const Podcasts = async () => {
   );
 };
 
-export default Podcasts;
+export default MealPlans;
