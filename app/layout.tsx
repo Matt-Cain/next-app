@@ -3,7 +3,6 @@ import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import ApolloWrapper from '@/components/ApolloWrapper';
 import { theme } from '../theme';
-import Layout from '@/pages/MealPlan/Layout';
 
 export const metadata = {
   title: 'Meal Plan',
@@ -23,9 +22,7 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <ApolloWrapper>
-            <Layout>{children}</Layout>
-          </ApolloWrapper>
+          <ApolloWrapper>{children}</ApolloWrapper>
         </MantineProvider>
       </body>
     </html>

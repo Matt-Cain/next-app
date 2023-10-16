@@ -1,32 +1,8 @@
-'use client';
-
-import { gql, useMutation } from '@apollo/client';
-import { Title, Text, Anchor, Center, Button } from '@mantine/core';
+import { Title, Text, Anchor } from '@mantine/core';
 import classes from './Welcome.module.css';
-import { setTokens } from '@/utils/tokens';
-
-const loginMutation = gql`
-  mutation Mutation($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      id
-      accessToken
-      refreshToken
-    }
-  }
-`;
+import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
 
 export function Welcome() {
-  const [loginMethod] = useMutation(loginMutation, {
-    variables: { username: 'foo', password: 'notArealPassword' },
-    onCompleted: ({ login }) => {
-      setTokens(login);
-    },
-  });
-
-  const handleLogin = () => {
-    loginMethod();
-  };
-
   return (
     <>
       <Title className={classes.title} ta="center" mt={100}>
@@ -43,11 +19,7 @@ export function Welcome() {
         </Anchor>
         . To get started edit page.tsx file.
       </Text>
-      <Center>
-        <Button variant="light" mt="10" onClick={handleLogin}>
-          Login
-        </Button>
-      </Center>
+      <ColorSchemeToggle />
     </>
   );
 }
