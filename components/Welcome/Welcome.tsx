@@ -5,7 +5,7 @@ import { ColorSchemeToggle } from '../ColorSchemeToggle/ColorSchemeToggle';
 export function Welcome() {
   return (
     <>
-      <Title className={classes.title} ta="center" mt={100}>
+      {/* <Title className={classes.title} ta="center" mt={100}>
         Welcome to{' '}
         <Text inherit variant="gradient" component="span" gradient={{ from: 'pink', to: 'yellow' }}>
           Mantine
@@ -18,7 +18,7 @@ export function Welcome() {
           this guide
         </Anchor>
         . To get started edit page.tsx file.
-      </Text>
+      </Text> */}
       <ColorSchemeToggle />
     </>
   );

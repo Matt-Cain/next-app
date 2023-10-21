@@ -16,6 +16,7 @@ interface iToken {
 }
 
 export const setTokens = ({ accessToken, refreshToken }: tokens) => {
+  console.log('setTokens', { accessToken, refreshToken });
   localStorage.setItem('accessToken', accessToken);
   localStorage.setItem('refreshToken', refreshToken);
 };
@@ -47,5 +48,4 @@ export const clearTokens = () => {
   tokenList.forEach((token) => localStorage.removeItem(token));
 };
 
-export const tokenExpiryTime = (token: string) =>
-  new Date(jwt_decode<iToken>(token)?.iat);
+export const tokenExpiryTime = (token: string) => new Date(jwt_decode<iToken>(token)?.iat);

@@ -1,4 +1,4 @@
-import { ApolloLink, HttpLink } from '@apollo/client';
+import { ApolloLink, HttpLink, from } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import {
   NextSSRInMemoryCache,
@@ -36,21 +36,21 @@ const createHttpLink = () =>
     fetchOptions: { cache: 'no-store' },
   });
 
-  const getLink = () => {
-    const httpLink = createHttpLink();
+const getLink = () => {
+  const httpLink = createHttpLink();
 
-    const link =
-      typeof window === 'undefined'
-        ? ApolloLink.from([
-            new SSRMultipartLink({
-              stripDefer: true,
-            }),
-            httpLink,
-          ])
-        : ApolloLink.from([afterWare, middleware, httpLink]);
+  const link =
+    typeof window === 'undefined'
+      ? from([
+          new SSRMultipartLink({
+            stripDefer: true,
+          }),
+          httpLink,
+        ])
+      : from([afterWare, middleware, httpLink]);
 
-    return link;
-  };
+  return link;
+};
 
 const makeClient = () => {
   const link = getLink();

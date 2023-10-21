@@ -22,7 +22,7 @@ const getMealBreadcrumbs = (segments) => {
 };
 
 const breadcrumbPaths = {
-  'meal-plans': getMealBreadcrumbs,
+  plans: getMealBreadcrumbs,
 };
 
 const getBreadcrumbForPath = (path) => {

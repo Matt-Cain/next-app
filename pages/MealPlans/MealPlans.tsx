@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import { useState } from 'react';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import { ActionIcon, Flex, Container } from '@mantine/core';
+import { Skeleton, ActionIcon, Flex, Container } from '@mantine/core';
 import { getCurrentMonthNumber, getWeeksInMonth, getMonthName } from '@/utils/dates';
 import MealPlanItem from './components/MealPlanItem';
 
@@ -76,7 +76,9 @@ const MealPlans = () => {
         </Flex>
       </Flex>
       {weeksWithMealPlans.map((data) => (
-        <MealPlanItem key={data.startDate} data={data} />
+        <Skeleton key={data.startDate} visible={mealQuery.loading} height="91" mt="20">
+          <MealPlanItem data={data} handleAddItem={mealQuery.refetch} />
+        </Skeleton>
       ))}
     </Container>
   );

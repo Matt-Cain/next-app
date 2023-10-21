@@ -10,29 +10,18 @@ export const getMonthName = (monthNumber) => {
 };
 
 export const getWeeksInMonth = (month, year = new Date().getFullYear()) => {
-  // Initialize the date for the first day of the given month and year
-  const date = new Date(year, month, 1);
-
-  // Create an array to store the weeks
   const weeks = [];
+  const firstDay = new Date(year, month, 1);
+  const firstSunday = new Date(firstDay.setDate(1 - firstDay.getDay()));
 
-  // Loop through the weeks in the month
-  while (date.getMonth() === month) {
-    // Get the start date of the current week (Sunday)
-    const weekStart = new Date(date);
+  while (firstSunday.getMonth() <= month) {
+    const startDate = new Date(firstSunday);
+    const endDate = new Date(firstSunday);
+    endDate.setDate(endDate.getDate() + 6);
 
-    // Go forward 6 days to get the end date (Saturday)
-    date.setDate(date.getDate() + 6);
-    const weekEnd = new Date(date);
+    weeks.push({ startDate, endDate });
 
-    // Add the current week to the array
-    weeks.push({
-      startDate: weekStart,
-      endDate: weekEnd,
-    });
-
-    // Move to the next week (next Sunday)
-    date.setDate(date.getDate() + 1);
+    firstSunday.setDate(firstSunday.getDate() + 7);
   }
 
   return weeks;

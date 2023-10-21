@@ -9,7 +9,7 @@ const mealPlanIcon = <LiaListAltSolid size="1rem" stroke={1.5} />;
 const settingsIcon = <IoSettingsSharp size="1rem" stroke={1.5} />;
 
 const links = [
-  { label: 'Meal Plans', href: '/meal-plans', icon: mealPlanIcon },
+  { label: 'Meal Plans', href: '/plans', icon: mealPlanIcon },
   { label: 'Shopping List', href: '/shopping-list', icon: shoppingIcon },
   { label: 'Settings', href: '/settings', icon: settingsIcon },
 ];
