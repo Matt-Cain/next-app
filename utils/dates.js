@@ -3,18 +3,26 @@ export const getCurrentMonthNumber = () => {
   return date.getMonth();
 };
 
+export const getCurrentYearNumber = () => {
+  const date = new Date();
+  return date.getFullYear();
+};
+
 export const getMonthName = (monthNumber) => {
   const date = new Date();
   date.setMonth(monthNumber);
   return date.toLocaleString('default', { month: 'long' });
 };
 
-export const getWeeksInMonth = (month, year = new Date().getFullYear()) => {
+export const getWeeksInMonth = (month, year) => {
   const weeks = [];
   const firstDay = new Date(year, month, 1);
-  const firstSunday = new Date(firstDay.setDate(1 - firstDay.getDay()));
+  const lastDay = new Date(year, month + 1, 0);
+  const firstSunday = new Date(firstDay);
 
-  while (firstSunday.getMonth() <= month) {
+  firstSunday.setDate(1 - firstSunday.getDay());
+
+  while (firstSunday <= lastDay) {
     const startDate = new Date(firstSunday);
     const endDate = new Date(firstSunday);
     endDate.setDate(endDate.getDate() + 6);

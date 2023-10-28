@@ -5,7 +5,12 @@ import { useState } from 'react';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { Skeleton, ActionIcon, Flex, Container } from '@mantine/core';
-import { getCurrentMonthNumber, getWeeksInMonth, getMonthName } from '@/utils/dates';
+import {
+  getCurrentMonthNumber,
+  getCurrentYearNumber,
+  getWeeksInMonth,
+  getMonthName,
+} from '@/utils/dates';
 import MealPlanItem from './components/MealPlanItem';
 
 const mealPlansQuery = gql`
@@ -33,10 +38,11 @@ const mapMealPlansToWeeks = (mealPlans, weeks) => {
 
 const MealPlans = () => {
   const [month, setMonth] = useState(getCurrentMonthNumber());
+  const [year, setYear] = useState(getCurrentYearNumber());
 
   const monthName = getMonthName(month);
 
-  const weeks = getWeeksInMonth(month);
+  const weeks = getWeeksInMonth(month, year);
 
   const { startDate } = weeks[0];
   const { endDate } = weeks[weeks.length - 1];
@@ -50,11 +56,19 @@ const MealPlans = () => {
   const nextMonth = () => {
     const newMonth = month === 11 ? 0 : month + 1;
     setMonth(newMonth);
+
+    if (newMonth === 0) {
+      setYear(year + 1);
+    }
   };
 
   const prevMonth = () => {
     const newMonth = month === 0 ? 11 : month - 1;
     setMonth(newMonth);
+
+    if (newMonth === 11) {
+      setYear(year - 1);
+    }
   };
 
   return (
