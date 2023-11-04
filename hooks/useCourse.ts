@@ -61,11 +61,29 @@ const getCourseQuery = gql`
   }
 `;
 
+const deleteCourseMutation = gql`
+  mutation DeleteCourse($id: ID!) {
+    deleteCourse(id: $id)
+  }
+`;
+
+const normalizeIngredients = (ingredients) => {
+  return ingredients.map(({ name, quantity, unit }) => ({
+    name: name.trim(),
+    quantity,
+    unit,
+  }));
+};
+
 const useCourse = ({ id: courseId }) => {
   const [createCourse] = useMutation(createCourseMutation);
   const [updateCourse] = useMutation(updateCourseMutation);
+  const [deleteCourse] = useMutation(deleteCourseMutation);
 
-  const { data, loading } = useQuery(courseId && getCourseQuery, { variables: { id: courseId } });
+  const { data, loading } = useQuery(getCourseQuery, {
+    variables: { id: courseId },
+    skip: !courseId,
+  });
 
   const create = ({ type, name, recipe, ingredients }) => {
     return createCourse({
@@ -73,15 +91,21 @@ const useCourse = ({ id: courseId }) => {
     });
   };
 
-  const update = ({ type, name, recipe, ingredients }) => {
+  const update = ({ id, type, name, recipe, ingredients }) => {
     return updateCourse({
-      variables: { id, type, name, recipe, ingredients },
+      variables: { id, type, name, recipe, ingredients: normalizeIngredients(ingredients) },
     });
+  };
+
+  const remove = () => {
+    if (!courseId) return false;
+    return deleteCourse({ variables: { id: courseId } });
   };
 
   return {
     create,
     update,
+    remove,
     data: data ? data.getCourse : null,
     loading,
   };

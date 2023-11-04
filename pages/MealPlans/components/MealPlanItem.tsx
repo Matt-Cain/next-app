@@ -3,8 +3,7 @@
 import { gql, useMutation } from '@apollo/client';
 import Link from 'next/link';
 import React from 'react';
-import { Skeleton, Box, Modal, Group, Button, Card, Flex, Text } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Skeleton, Box, Card, Flex, Text } from '@mantine/core';
 import { formatRange } from '@/utils/dates';
 import AddItem from '@/components/AddItem/AddItem';
 
@@ -19,41 +18,18 @@ const createMealPlanMutation = gql`
 `;
 
 const AddItemCard = ({ data: { startDate, endDate }, handleAddItem }) => {
-  const [opened, { toggle, close }] = useDisclosure(false);
-
   const [callMutation, { loading }] = useMutation(createMealPlanMutation, {
     variables: { startDate, endDate },
-    onCompleted: ({ createPlan }) => {
+    onCompleted: () => {
       handleAddItem();
-      console.log('createMealPlan', createPlan);
     },
   });
-
-  const doCreateMealPlan = () => {
-    callMutation();
-    close();
-  };
 
   const range = formatRange({ startDate, endDate });
   return (
     <Skeleton visible={loading} style={{ height: '100%', width: '100%', flex: 1 }}>
-      <Box onClick={toggle} style={{ cursor: 'pointer', marginTop: '20px' }}>
+      <Box onClick={callMutation} style={{ cursor: 'pointer', marginTop: '20px' }}>
         <AddItem>
-          <Modal
-            title="Create meal plan or add placeholder"
-            opened={opened}
-            onClose={close}
-            centered
-          >
-            <Group justify="center">
-              <Button onClick={doCreateMealPlan} variant="light">
-                Meal Plan
-              </Button>
-              <Button onClick={close} variant="light">
-                Placeholder
-              </Button>
-            </Group>
-          </Modal>
           <Text size="xl" style={{ lineHeight: '35px' }}>
             {range}
           </Text>

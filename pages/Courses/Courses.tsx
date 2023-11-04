@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { gql } from '@apollo/client';
 import { useInputState } from '@mantine/hooks';
@@ -34,7 +34,16 @@ const getCoursesQuery = gql`
   }
 `;
 
-const Meals = () => {
+const filteredCourses = (courses, search, type) => {
+  return courses.filter((course) => {
+    const nameMatch = search ? course.name.toLowerCase().includes(search.toLowerCase()) : true;
+    const typeMatch = course.type === type;
+
+    return nameMatch && typeMatch;
+  });
+};
+
+const Courses = () => {
   const [search, setSearch] = useInputState('');
   const [type, setType] = useInputState('entree');
   const router = useRouter();
@@ -42,19 +51,18 @@ const Meals = () => {
   // TODO: make this a next/link
   const handleAddMealClick = () => router.push('/courses/create');
 
-  const { data, loading } = useQuery(getCoursesQuery);
+  const { data, refetch } = useQuery(getCoursesQuery);
 
-  const courses = data?.getCourses || [];
+  useEffect(() => {
+    refetch();
+  }, []);
 
-  const filteredCourses = courses.filter((course) => {
-    const nameMatch = search ? course.name.toLowerCase().includes(search.toLowerCase()) : true;
-    const typeMatch = course.type === type;
+  const courses = filteredCourses(data?.getCourses || [], search, type);
 
-    return nameMatch && typeMatch;
-  });
+  const handleCourseClick = (id) => () => router.push(`/courses/${id}`);
 
-  const rows = filteredCourses.map(({ name, id }) => (
-    <Table.Tr key={id} onClick={() => router.push(`/courses/${id}`)} style={{ cursor: 'pointer' }}>
+  const rows = courses.map(({ name, id }) => (
+    <Table.Tr key={id} onClick={handleCourseClick(id)} style={{ cursor: 'pointer' }}>
       <Table.Td>{name}</Table.Td>
       <Table.Td>
         <ActionIcon
@@ -89,4 +97,4 @@ const Meals = () => {
   );
 };
 
-export default Meals;
+export default Courses;

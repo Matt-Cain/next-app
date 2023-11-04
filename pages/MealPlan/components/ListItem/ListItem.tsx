@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Skeleton, Flex, Text, Fieldset, ThemeIcon } from '@mantine/core';
 import { RiDraggable } from 'react-icons/ri';
 import { usePathname, useRouter } from 'next/navigation';
+import { useDisclosure } from '@mantine/hooks';
+import AddMealModal from '../AddMealModal';
 
 const Item = ({ name, handleCreateItem }) => (
   <Flex
@@ -22,39 +24,32 @@ const Item = ({ name, handleCreateItem }) => (
 );
 
 const createMealPlanMutation = gql`
-  mutation CreateMealPlan($planId: ID!, $day: Int!) {
-    createMealPlan(planId: $planId, day: $day) {
+  mutation CreateMealPlan($planId: ID!, $day: Int!, $placeholder: String) {
+    createMealPlan(planId: $planId, day: $day, placeholder: $placeholder) {
       id
       day
+      placeholder
     }
   }
 `;
 
-const ListItem = ({ title, day, meal, loading, planId }) => {
-  const router = useRouter();
+const ListItem = ({ title, day, mealPlan, loading, planId }) => {
+  const [opened, handler] = useDisclosure();
+  const [callMutation] = useMutation(createMealPlanMutation);
   const pathName = usePathname();
+  console.log({ mealPlan });
 
-  const [callMutation, mutation] = useMutation(createMealPlanMutation, {
-    variables: { planId, day },
-    onCompleted: ({ createMealPlan }) => {
-      const { id } = createMealPlan;
-      if (id) {
-        router.push(`${pathName}/meal/${id}`);
-      }
-    },
-  });
-
-  const { name, id } = meal || {};
-
+  const { name, id } = mealPlan || {};
   const pathToMeal = `${pathName}/meal/${id}`;
 
-  const handleCreateItem = () => {
-    if (mutation.loading) return;
-    callMutation();
+  const createMeal = ({ placeholder }) => {
+    console.log('placeholder', placeholder);
+    callMutation({ variables: { planId, day, placeholder } });
   };
 
   return (
     <Skeleton visible={loading} style={{ height: '100%', width: '100%', flex: 1 }}>
+      <AddMealModal createMeal={createMeal} opened={opened} handler={handler} />
       <Fieldset
         style={{ width: '100%', height: '100%', flex: 1 }}
         legend={title}
@@ -64,16 +59,16 @@ const ListItem = ({ title, day, meal, loading, planId }) => {
         pl="md"
         pr="sm"
       >
-        {meal ? (
+        {mealPlan ? (
           <Link
-            disable={!meal}
+            disable={!mealPlan}
             href={pathToMeal}
             style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            <Item name={name} />
+            <Item name={mealPlan?.meal?.name || mealPlan?.placeholder} />
           </Link>
         ) : (
-          <Item handleCreateItem={handleCreateItem} />
+          <Item handleCreateItem={handler.open} />
         )}
       </Fieldset>
     </Skeleton>

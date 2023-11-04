@@ -5,15 +5,16 @@ import { Container } from '@mantine/core';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import List from '@/pages/MealPlan/components/List';
 
-const planQuery = gql`
+const getPlanQuery = gql`
   query GetPlan($id: ID!) {
     getPlan(id: $id) {
       id
       startDate
       endDate
-      meals {
+      mealPlans {
         id
         day
+        placeholder
         meal {
           id
           name
@@ -24,13 +25,13 @@ const planQuery = gql`
 `;
 
 const MealPlan = ({ planId }) => {
-  const mealQuery = useQuery(planQuery, { variables: { id: planId } });
+  const planQuery = useQuery(getPlanQuery, { variables: { id: planId } });
 
-  const meals = mealQuery.data?.getPlan?.meals || [];
+  const mealPlans = planQuery.data?.getPlan?.mealPlans || [];
 
   return (
     <Container style={{ height: '100%' }}>
-      <List planId={planId} loading={mealQuery.loading} meals={meals} />
+      <List planId={planId} loading={planQuery.loading} mealPlans={mealPlans} />
     </Container>
   );
 };

@@ -13,7 +13,7 @@ const settingsIcon = <IoSettingsSharp size="1rem" stroke={1.5} />;
 const links = [
   { label: 'Plans', href: '/plans', icon: mealPlanIcon },
   { label: 'Courses', href: '/courses', icon: coursesIcon },
-  { label: 'Shopping', href: '/shopping-list', icon: shoppingIcon },
+  { label: 'Shopping', href: '/shopping', icon: shoppingIcon },
   { label: 'Settings', href: '/settings', icon: settingsIcon },
 ];
 
