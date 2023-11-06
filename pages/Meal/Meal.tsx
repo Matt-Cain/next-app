@@ -27,13 +27,15 @@ const Meal = ({ id }) => {
   };
 
   const createOrUpdate = () => {
+    let success = false;
+
     if (hasMeal) {
-      mealPlan.update(form.main.values);
+      success = mealPlan.update(form.main.values);
     } else {
-      mealPlan.create(form.main.values);
+      success = mealPlan.create(form.main.values);
     }
-    // form.clear();
-    // router.push('/courses');
+
+    if (success) router.push('/plans');
   };
 
   return (
@@ -54,10 +56,7 @@ const Meal = ({ id }) => {
         />
       </Fieldset>
       <Fieldset legend="Sides" style={{ marginTop: '20px' }}>
-        <SidesTable
-          sides={form.main.values.sides}
-          removeSide={form.removeSide}
-        />
+        <SidesTable sides={form.main.values.sides} removeSide={form.removeSide} />
         <AddCourse
           key={form.main.values.sides.length}
           addCourse={form.addSide}

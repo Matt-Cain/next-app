@@ -6,7 +6,6 @@ import { gql } from '@apollo/client';
 import { useInputState } from '@mantine/hooks';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import {
-  ActionIcon,
   Button,
   SegmentedControl,
   Group,
@@ -14,7 +13,6 @@ import {
   TextInput,
   Table,
 } from '@mantine/core';
-import { CiCircleRemove } from 'react-icons/ci';
 
 const courseTypes = ['entree', 'side'];
 
@@ -64,16 +62,6 @@ const Courses = () => {
   const rows = courses.map(({ name, id }) => (
     <Table.Tr key={id} onClick={handleCourseClick(id)} style={{ cursor: 'pointer' }}>
       <Table.Td>{name}</Table.Td>
-      <Table.Td>
-        <ActionIcon
-          color="red.4"
-          // onClick={() => removeIngredient(index)}
-          variant="transparent"
-          radius="xl"
-        >
-          <CiCircleRemove stroke={1.5} size={40} />
-        </ActionIcon>
-      </Table.Td>
     </Table.Tr>
   ));
 
@@ -88,7 +76,6 @@ const Courses = () => {
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Name</Table.Th>
-            <Table.Th />
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>

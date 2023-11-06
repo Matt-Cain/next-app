@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Box, Text } from '@mantine/core';
 import { formatRange } from '@/utils/dates';
-import AddItem from '@/components/AddItem/AddItem';
+import AddItem from '@/components/Item/Item';
 
 const MealPlanItem = ({ data: { startDate, endDate } }) => {
   const router = useRouter();

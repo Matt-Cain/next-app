@@ -121,22 +121,26 @@ const useMealPlan = ({ id: mealPlanId }) => {
     skip: !mealPlanId,
   });
 
-  const create = ({ name, entree, sides }) => {
+  const create = async ({ name, entree, sides }) => {
     const entreeId = normalize(entree);
     const sideIds = normalizeArray(sides);
 
-    return createMeal({
+    const res = await createMeal({
       variables: { planId: mealPlanId, name, entree: entreeId, sides: sideIds },
     });
+
+    return res?.data?.createMeal;
   };
 
-  const update = ({ id, name, entree, sides }) => {
+  const update = async ({ id, name, entree, sides }) => {
     const entreeId = normalize(entree);
     const sideIds = normalizeArray(sides);
 
-    return updateMeal({
+    const res = await updateMeal({
       variables: { id, name, entree: entreeId, sides: sideIds },
     });
+
+    return res?.data?.updateMeal;
   };
 
   const remove = () => {

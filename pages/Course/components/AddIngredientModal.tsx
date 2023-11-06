@@ -41,13 +41,19 @@ const AddIngredientModal = ({ opened, close, addIngredient }) => {
   const cleanUndefined = (arr) => arr.filter((item) => item !== undefined);
 
   const handleAddIngredientClick = () => {
+    if (form.validate().hasErrors) return;
     addIngredient(form.values);
     form.reset();
     close();
   };
 
+  const handleClose = () => {
+    form.reset();
+    close();
+  };
+
   return (
-    <Modal title="Add Ingredient" opened={opened} onClose={close} centered>
+    <Modal title="Add Ingredient" opened={opened} onClose={handleClose} centered>
       <Fieldset legend="">
         <Autocomplete
           label="Name"

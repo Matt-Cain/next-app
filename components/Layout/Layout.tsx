@@ -1,52 +1,12 @@
 'use client';
 
-import Link from 'next/link';
 import { useDisclosure } from '@mantine/hooks';
-import { Flex, Breadcrumbs, Anchor, AppShell, Burger, Center } from '@mantine/core';
-import { usePathname } from 'next/navigation';
+import { Flex, AppShell, Burger, Center } from '@mantine/core';
 import NavBar from '@/components/NavBar';
-
-const getMealBreadcrumbs = (segments) => {
-  const breadCrumbNames = ['Plans', 'Plan', undefined, 'Meal'];
-
-  const parsedCrumbs = segments.reduce(
-    (acc, segment, index) => {
-      acc.breadcrumbPath += `/${segment}`;
-      if (index === 2) return acc;
-      acc.breadcrumbs.push({ title: breadCrumbNames[index], href: acc.breadcrumbPath });
-      return acc;
-    },
-    { breadcrumbPath: '', breadcrumbs: [] }
-  );
-  return parsedCrumbs.breadcrumbs;
-};
-
-const breadcrumbPaths = {
-  plans: getMealBreadcrumbs,
-};
-
-const getBreadcrumbForPath = (path) => {
-  const pathName = path.replace(/\/$/, '');
-  const segments = pathName.split('/').filter((segment) => segment.trim() !== '');
-
-  const formatBreadcrumbForSegments = breadcrumbPaths[segments[0]];
-
-  if (!formatBreadcrumbForSegments) {
-    return [];
-  }
-
-  return formatBreadcrumbForSegments(segments);
-};
+import NavBreadcrumbs from '@/components/NavBreadcrumbs';
 
 const Layout = ({ children }) => {
   const [opened, { toggle }] = useDisclosure();
-  const pathName = usePathname();
-
-  const breadcrumbs = getBreadcrumbForPath(pathName).map(({ title, href }, index) => (
-    <Anchor component={Link} style={{ color: 'white' }} href={href} key={index}>
-      {title}
-    </Anchor>
-  ));
 
   return (
     <AppShell
@@ -65,9 +25,7 @@ const Layout = ({ children }) => {
               size="sm"
             />
           </Center>
-          <Breadcrumbs style={{ marginLeft: 10 }} separator="→">
-            {breadcrumbs}
-          </Breadcrumbs>
+          <NavBreadcrumbs />
         </Flex>
       </AppShell.Header>
       <AppShell.Navbar p="md">

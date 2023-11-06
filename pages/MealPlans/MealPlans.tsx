@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
-import { ActionIcon, Flex, Container } from '@mantine/core';
+import { ActionIcon, Center, Container } from '@mantine/core';
 import {
   getCurrentMonthNumber,
   getCurrentYearNumber,
@@ -39,22 +39,15 @@ const MealPlans = () => {
 
   return (
     <Container fluid style={{ height: '100%' }}>
-      <Flex align="center" direction="row" style={{ position: 'relative' }}>
-        <h1 style={{ alignSelf: 'start' }}>Meal Plans</h1>
-        <Flex
-          align="center"
-          justify="center"
-          style={{ width: '100%', position: 'absolute', inset: 0 }}
-        >
-          <ActionIcon onClick={prevMonth} variant="transparent" aria-label="Settings">
-            <AiOutlineDoubleLeft style={{ width: '70%', height: '70%' }} stroke={1.5} />
-          </ActionIcon>
-          <h1 style={{ width: '200px', textAlign: 'center' }}>{monthName}</h1>
-          <ActionIcon onClick={nextMonth} variant="transparent" aria-label="Settings">
-            <AiOutlineDoubleRight style={{ width: '70%', height: '70%' }} stroke={1.5} />
-          </ActionIcon>
-        </Flex>
-      </Flex>
+      <Center align="center" style={{ height: '50px' }}>
+        <ActionIcon onClick={prevMonth} variant="transparent" aria-label="Settings">
+          <AiOutlineDoubleLeft style={{ width: '70%', height: '70%' }} stroke={1.5} />
+        </ActionIcon>
+        <h1 style={{ width: '200px', textAlign: 'center' }}>{monthName}</h1>
+        <ActionIcon onClick={nextMonth} variant="transparent" aria-label="Settings">
+          <AiOutlineDoubleRight style={{ width: '70%', height: '70%' }} stroke={1.5} />
+        </ActionIcon>
+      </Center>
       {weeks.map((data) => (
         <MealPlanItem key={data.startDate.toString()} data={data} />
       ))}

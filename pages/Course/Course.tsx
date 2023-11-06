@@ -8,6 +8,7 @@ import {
   Flex,
   Group,
   SegmentedControl,
+  Text,
   TextInput,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -38,11 +39,14 @@ const Course = ({ id }) => {
   };
 
   const createOrUpdate = () => {
+    if (form.main.validate().hasErrors) return;
+
     if (id) {
       course.update(form.main.values);
     } else {
       course.create(form.main.values);
     }
+
     form.clear();
     router.push('/courses');
   };
@@ -73,6 +77,17 @@ const Course = ({ id }) => {
           ingredients={form.main.values.ingredients}
           removeIngredient={form.removeIngredient}
         />
+        {form.main.errors.ingredients && (
+          <Text
+            style={{ marginBottom: '15px' }}
+            color="red"
+            size="sm"
+            variant="filled"
+            themeOverride={{ filled: { backgroundColor: 'red' } }}
+          >
+            {form.main.errors.ingredients}
+          </Text>
+        )}
         <ActionIcon
           mt={20}
           color="gray"

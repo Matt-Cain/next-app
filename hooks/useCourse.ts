@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client/core';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
+import { notifications } from '@mantine/notifications';
 
 const createCourseMutation = gql`
   mutation CreateCourse(
@@ -67,6 +68,57 @@ const deleteCourseMutation = gql`
   }
 `;
 
+const createCourseNotification = {
+  onCompleted: () => {
+    notifications.show({
+      title: 'Success',
+      message: 'Your course has been created',
+      color: 'green',
+    });
+  },
+  onError: () => {
+    notifications.show({
+      title: 'Error',
+      message: 'There was a problem creating your course',
+      color: 'red',
+    });
+  },
+};
+
+const updateCourseNotification = {
+  onCompleted: () => {
+    notifications.show({
+      title: 'Success',
+      message: 'Your course has been updated',
+      color: 'green',
+    });
+  },
+  onError: () => {
+    notifications.show({
+      title: 'Error',
+      message: 'There was a problem updating your course',
+      color: 'red',
+    });
+  },
+};
+
+const deleteCourseNotification = {
+  onCompleted: () => {
+    notifications.show({
+      title: 'Success',
+      message: 'Your course has been deleted',
+      color: 'green',
+    });
+  },
+  onError: () => {
+    notifications.show({
+      title: 'Error',
+      message: 'There was a problem deleting your course',
+      color: 'red',
+    });
+  },
+};
+
 const normalizeIngredients = (ingredients) => {
   return ingredients.map(({ name, quantity, unit }) => ({
     name: name.trim(),
@@ -76,9 +128,9 @@ const normalizeIngredients = (ingredients) => {
 };
 
 const useCourse = ({ id: courseId }) => {
-  const [createCourse] = useMutation(createCourseMutation);
-  const [updateCourse] = useMutation(updateCourseMutation);
-  const [deleteCourse] = useMutation(deleteCourseMutation);
+  const [createCourse] = useMutation(createCourseMutation, createCourseNotification);
+  const [updateCourse] = useMutation(updateCourseMutation, updateCourseNotification);
+  const [deleteCourse] = useMutation(deleteCourseMutation, deleteCourseNotification);
 
   const { data, loading } = useQuery(getCourseQuery, {
     variables: { id: courseId },
