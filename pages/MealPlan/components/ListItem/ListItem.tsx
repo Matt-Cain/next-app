@@ -23,28 +23,36 @@ const Item = ({ name, handleCreateItem }) => (
   </Flex>
 );
 
-const createMealPlanMutation = gql`
-  mutation CreateMealPlan($planId: ID!, $day: Int!, $placeholder: String) {
-    createMealPlan(planId: $planId, day: $day, placeholder: $placeholder) {
+const createPlanMutation = gql`
+  mutation CreatePlan($timestamp: Date!, $placeholder: String) {
+    createPlan(timestamp: $timestamp, placeholder: $placeholder) {
       id
-      day
+      timestamp
       placeholder
     }
   }
 `;
 
-const ListItem = ({ title, day, mealPlan, loading, planId }) => {
-  const [opened, handler] = useDisclosure();
-  const [callMutation] = useMutation(createMealPlanMutation);
-  const pathName = usePathname();
-  console.log({ mealPlan });
+const ListItem = ({ plan, title, loading }) => {
+  const { placeholder, id, meal, timestamp } = plan || {};
 
-  const { name, id } = mealPlan || {};
+  const router = useRouter();
+  const [opened, handler] = useDisclosure();
+  const pathName = usePathname();
+
+  const [callMutation] = useMutation(createPlanMutation, {
+    onCompleted: ({ createPlan }) => {
+      const { id: newId, placeholder: newPlaceholder } = createPlan;
+
+      if (newPlaceholder) return;
+      router.push(`${pathName}/meal/${newId}`);
+    },
+  });
+
   const pathToMeal = `${pathName}/meal/${id}`;
 
-  const createMeal = ({ placeholder }) => {
-    console.log('placeholder', placeholder);
-    callMutation({ variables: { planId, day, placeholder } });
+  const createMeal = ({ placeholder: newPlaceholder }) => {
+    callMutation({ variables: { timestamp: new Date(timestamp), placeholder: newPlaceholder } });
   };
 
   return (
@@ -59,13 +67,13 @@ const ListItem = ({ title, day, mealPlan, loading, planId }) => {
         pl="md"
         pr="sm"
       >
-        {mealPlan ? (
+        {id ? (
           <Link
-            disable={!mealPlan}
+            disable={!plan}
             href={pathToMeal}
             style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            <Item name={mealPlan?.meal?.name || mealPlan?.placeholder} />
+            <Item name={meal?.name || placeholder} />
           </Link>
         ) : (
           <Item handleCreateItem={handler.open} />

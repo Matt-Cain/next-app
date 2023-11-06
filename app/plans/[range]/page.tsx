@@ -1,9 +1,9 @@
 import MealPlan from '@/pages/MealPlan';
 
 const MealPlanContainer = async ({ params }) => {
-  const { planId } = params;
+  const { range } = params;
 
-  return <MealPlan planId={planId} />;
+  return <MealPlan range={range} />;
 };
 
 export default MealPlanContainer;

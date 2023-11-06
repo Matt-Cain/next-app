@@ -11,13 +11,13 @@ import useMealPlanForm from './hooks/useMealPlanForm';
 
 const Meal = ({ id }) => {
   const mealPlan = useMealPlan({ id });
-  console.log({ mealPlan });
   const router = useRouter();
 
   const [destructiveDialogOpened, destructiveDialogHandler] = useDisclosure(false);
 
   const form = useMealPlanForm({ mealPlan: mealPlan?.data?.meal });
-  console.log({ values: form.main.values });
+
+  const hasMeal = mealPlan?.data?.meal;
 
   const handleDestructiveAction = () => {
     if (id) mealPlan.remove();
@@ -27,7 +27,7 @@ const Meal = ({ id }) => {
   };
 
   const createOrUpdate = () => {
-    if (mealPlan?.data?.meal) {
+    if (hasMeal) {
       mealPlan.update(form.main.values);
     } else {
       mealPlan.create(form.main.values);
@@ -54,29 +54,32 @@ const Meal = ({ id }) => {
         />
       </Fieldset>
       <Fieldset legend="Sides" style={{ marginTop: '20px' }}>
-        <SidesTable sides={form.main.values.sides} removeSide={form.removeSide} />
+        <SidesTable
+          sides={form.main.values.sides}
+          removeSide={form.removeSide}
+        />
         <AddCourse
           key={form.main.values.sides.length}
-          style={{ marginTop: '20px' }}
           addCourse={form.addSide}
+          style={{ marginTop: '20px' }}
           type="side"
         />
       </Fieldset>
       <Group>
         <Button onClick={createOrUpdate} mt={20}>
-          {mealPlan.data ? 'Update Course' : 'Create Course'}
+          {hasMeal ? 'Update Meal' : 'Create Meal'}
         </Button>
         <Button onClick={destructiveDialogHandler.open} variant="outline" mt={20} color="red">
-          {mealPlan.data ? 'Delete Course' : 'Clear Course'}
+          {hasMeal ? 'Delete Meal' : 'Clear Meal'}
         </Button>
       </Group>
       <Dialog
         opened={destructiveDialogOpened}
         onClose={destructiveDialogHandler.close}
         onDestroy={handleDestructiveAction}
-        title={mealPlan.data ? 'Delete the course' : 'Clear the course'}
-        safeText="Keep Course"
-        dangerText={mealPlan.data ? 'Delete Course' : 'Clear Course'}
+        title={hasMeal ? 'Delete the meal' : 'Clear the meal'}
+        safeText="Keep Meal"
+        dangerText={hasMeal ? 'Delete Meal' : 'Clear Meal'}
       />
     </Container>
   );

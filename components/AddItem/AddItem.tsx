@@ -10,9 +10,9 @@ const AddItem = ({ handleClick, children }) => {
       <Card p="28">
         <Grid style={{ height: '100%' }}>
           <Grid.Col span={2}>
-            <ActionIcon variant="outline" color="gray" size="lg" radius="xl">
+            {/* <ActionIcon variant="outline" color="gray" size="lg" radius="xl">
               <IoMdAdd style={{ width: '70%', height: '70%' }} stroke={1.5} />
-            </ActionIcon>
+            </ActionIcon> */}
           </Grid.Col>
           <Grid.Col span={10} offset={-1}>
             <Center>{children}</Center>

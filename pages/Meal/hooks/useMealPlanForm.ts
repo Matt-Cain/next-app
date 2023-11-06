@@ -17,11 +17,11 @@ const useMealPlanForm = ({ mealPlan }) => {
     }
   }, [mealPlan]);
 
-  const clearStorage = useFormStorage({ form, key: STORAGE_KEY, disable: mealPlan });
+  // const clearStorage = useFormStorage({ form, key: STORAGE_KEY, disable: mealPlan });
 
   const clear = () => {
     form.reset();
-    clearStorage();
+    // clearStorage();
   };
 
   const addEntree = (entree) => {

@@ -1,7 +1,10 @@
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
+
 import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
+import { Notifications } from '@mantine/notifications';
 import ApolloWrapper from '@/components/ApolloWrapper';
 import { theme } from '../theme';
 
@@ -24,6 +27,7 @@ export default function RootLayout({ children }: { children: any }) {
       <body>
         <MantineProvider theme={theme}>
           <ModalsProvider>
+            <Notifications position="bottom-center" />
             <ApolloWrapper>{children}</ApolloWrapper>
           </ModalsProvider>
         </MantineProvider>

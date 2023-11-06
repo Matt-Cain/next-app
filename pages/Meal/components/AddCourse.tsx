@@ -19,7 +19,7 @@ const getCoursesQuery = gql`
   }
 `;
 
-const AddCourseModal = ({ addCourse, type, formProps }) => {
+const AddCourseModal = ({ addCourse, type, formProps, style }) => {
   const { data } = useQuery(getCoursesQuery);
   const [input, setInput] = useState('');
 
@@ -44,7 +44,13 @@ const AddCourseModal = ({ addCourse, type, formProps }) => {
   };
 
   return (
-    <Autocomplete {...formProps} value={input} data={courseNames} onChange={handleAddCourse} />
+    <Autocomplete
+      style={style}
+      {...formProps}
+      value={input}
+      data={courseNames}
+      onChange={handleAddCourse}
+    />
   );
 };
 

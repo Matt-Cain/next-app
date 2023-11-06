@@ -4,7 +4,6 @@ import { useInputState, useDisclosure } from '@mantine/hooks';
 const AddMealModal = ({ createMeal, opened, handler }) => {
   const [isPlaceholder, placeholderHandler] = useDisclosure(false);
   const [name, setName] = useInputState('');
-  console.log({ name });
 
   const handleCreateItem = () => {
     if (isPlaceholder) {

@@ -50,3 +50,19 @@ export const formatRange = ({ startDate, endDate }) => {
 
   return `${start} - ${end}`;
 };
+
+export const getWeekTimestamps = ({ startDate, endDate }) => {
+  const startTimestamp = parseInt(startDate);
+  const endTimestamp = parseInt(endDate);
+  const timestamps = [];
+
+  for (
+    let timestamp = startTimestamp;
+    timestamp <= endTimestamp;
+    timestamp += 24 * 60 * 60 * 1000
+  ) {
+    timestamps.push(timestamp);
+  }
+
+  return timestamps;
+};

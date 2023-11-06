@@ -1,10 +1,11 @@
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client/core';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
+import { notifications } from '@mantine/notifications';
 
 const createMealMutation = gql`
-  mutation CreateMeal($mealPlanId: ID!, $name: String!, $entree: ID!, $sides: [ID]!) {
-    createMeal(mealPlanId: $mealPlanId, name: $name, entree: $entree, sides: $sides) {
+  mutation CreateMeal($planId: ID!, $name: String!, $entree: ID!, $sides: [ID]!) {
+    createMeal(planId: $planId, name: $name, entree: $entree, sides: $sides) {
       id
       name
       entree {
@@ -36,10 +37,10 @@ const updateMealMutation = gql`
 `;
 
 const GET_MEAL_PLAN = gql`
-  query GetMealPlan($mealPlanId: ID!) {
-    getMealPlan(mealPlanId: $mealPlanId) {
+  query GetPlan($id: ID!) {
+    getPlan(id: $id) {
       id
-      day
+      timestamp
       meal {
         id
         name
@@ -76,13 +77,47 @@ const normalize = ({ id }) => id;
 
 const normalizeArray = (array) => array.map(normalize);
 
+const handleCreateMealNotification = {
+  onCompleted: () => {
+    notifications.showNotification({
+      title: 'Meal Plan Created',
+      message: 'Your meal plan has been created',
+      color: 'green',
+    });
+  },
+  onError: () => {
+    notifications.showNotification({
+      title: 'Error',
+      message: 'There was an error creating your meal plan',
+      color: 'red',
+    });
+  },
+};
+
+const handleUpdateMealNotification = {
+  onCompleted: () => {
+    notifications.show({
+      title: 'Meal Plan Updated',
+      message: 'Your meal plan has been updated',
+      color: 'cyan',
+    });
+  },
+  onError: () => {
+    notifications.show({
+      title: 'Error',
+      message: 'There was an error updating your meal plan',
+      color: 'red',
+    });
+  },
+};
+
 const useMealPlan = ({ id: mealPlanId }) => {
-  const [createMeal] = useMutation(createMealMutation);
-  const [updateMeal] = useMutation(updateMealMutation);
+  const [createMeal] = useMutation(createMealMutation, handleCreateMealNotification);
+  const [updateMeal] = useMutation(updateMealMutation, handleUpdateMealNotification);
   const [deleteCourse] = useMutation(deleteCourseMutation);
 
   const { data, loading } = useQuery(GET_MEAL_PLAN, {
-    variables: { mealPlanId },
+    variables: { id: mealPlanId },
     skip: !mealPlanId,
   });
 
@@ -91,7 +126,7 @@ const useMealPlan = ({ id: mealPlanId }) => {
     const sideIds = normalizeArray(sides);
 
     return createMeal({
-      variables: { mealPlanId, name, entree: entreeId, sides: sideIds },
+      variables: { planId: mealPlanId, name, entree: entreeId, sides: sideIds },
     });
   };
 
@@ -113,7 +148,7 @@ const useMealPlan = ({ id: mealPlanId }) => {
     create,
     update,
     remove,
-    data: data ? data.getMealPlan : null,
+    data: data ? data.getPlan : null,
     loading,
   };
 };

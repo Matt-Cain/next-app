@@ -1,10 +1,8 @@
 'use client';
 
-import { gql } from '@apollo/client';
 import { useState } from 'react';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
-import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import { Skeleton, ActionIcon, Flex, Container } from '@mantine/core';
+import { ActionIcon, Flex, Container } from '@mantine/core';
 import {
   getCurrentMonthNumber,
   getCurrentYearNumber,
@@ -13,29 +11,6 @@ import {
 } from '@/utils/dates';
 import MealPlanItem from './components/MealPlanItem';
 
-const mealPlansQuery = gql`
-  query GetPlans($startDate: Date!, $endDate: Date!) {
-    getPlans(startDate: $startDate, endDate: $endDate) {
-      id
-      startDate
-      endDate
-    }
-  }
-`;
-
-const mapMealPlansToWeeks = (mealPlans, weeks) => {
-  return weeks.map((week) => {
-    const mealPlan = mealPlans.find((plan) => {
-      if (!plan.startDate || !plan.endDate) return week;
-      const startDate = new Date(plan.startDate).getTime();
-      const endDate = new Date(plan.endDate).getTime();
-      return startDate === week.startDate.getTime() || endDate === week.endDate.getTime();
-    });
-
-    return { ...week, mealPlan };
-  });
-};
-
 const MealPlans = () => {
   const [month, setMonth] = useState(getCurrentMonthNumber());
   const [year, setYear] = useState(getCurrentYearNumber());
@@ -43,15 +18,6 @@ const MealPlans = () => {
   const monthName = getMonthName(month);
 
   const weeks = getWeeksInMonth(month, year);
-
-  const { startDate } = weeks[0];
-  const { endDate } = weeks[weeks.length - 1];
-
-  const mealQuery = useQuery(mealPlansQuery, { variables: { startDate, endDate } });
-
-  const mealPlans = mealQuery.data?.getPlans || [];
-
-  const weeksWithMealPlans = mapMealPlansToWeeks(mealPlans, weeks);
 
   const nextMonth = () => {
     const newMonth = month === 11 ? 0 : month + 1;
@@ -89,10 +55,8 @@ const MealPlans = () => {
           </ActionIcon>
         </Flex>
       </Flex>
-      {weeksWithMealPlans.map((data) => (
-        <Skeleton key={data.startDate} visible={mealQuery.loading} height="91" mt="20">
-          <MealPlanItem data={data} handleAddItem={mealQuery.refetch} />
-        </Skeleton>
+      {weeks.map((data) => (
+        <MealPlanItem key={data.startDate.toString()} data={data} />
       ))}
     </Container>
   );

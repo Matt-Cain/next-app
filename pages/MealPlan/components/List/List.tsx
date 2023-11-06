@@ -5,22 +5,35 @@ import ListItem from '../ListItem/ListItem';
 
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-const mapMealPlans = (mealPlans) =>
-  days.map((day, index) => mealPlans.find((m) => m.day === index));
+const mapPlans = (plans, timestamps) => {
+  const mappedPlans = timestamps.map((timestamp) => {
+    const plan = plans.find((p) => new Date(p.timestamp).getTime() === timestamp);
 
-const MealPlan = ({ mealPlans, loading, planId }) => {
-  const mappedMealPlans = mapMealPlans(mealPlans);
+    if (!plan) {
+      return {
+        timestamp,
+        meal: null,
+        placeholder: '',
+      };
+    }
+
+    return plan;
+  });
+
+  return mappedPlans;
+};
+
+const MealPlan = ({ timestamps, plans, loading }) => {
+  const mappedPlans = mapPlans(plans, timestamps);
 
   return (
     <Flex mt="-5px" gap="md" justify="space-evenly" direction="column" style={{ height: '100%' }}>
-      {mappedMealPlans.map((mealPlan, index) => (
+      {mappedPlans.map((plan, index) => (
         <ListItem
-          planId={planId}
           loading={loading}
           key={index}
           title={days[index]}
-          day={index}
-          mealPlan={mealPlan}
+          plan={plan}
         />
       ))}
     </Flex>
