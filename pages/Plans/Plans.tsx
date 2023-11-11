@@ -3,41 +3,36 @@
 import { gql } from '@apollo/client';
 import { Container } from '@mantine/core';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import List from '@/pages/MealPlan/components/List';
+import List from '@/pages/Plans/components/List';
 import { getWeekTimestamps } from '@/utils/dates';
 
 const getPlansQuery = gql`
   query GetPlans($startDate: Date!, $endDate: Date!) {
     getPlans(startDate: $startDate, endDate: $endDate) {
       id
+      isPlaceholder
+      name
       timestamp
-      meal {
-        id
-        name
-      }
-      placeholder
     }
   }
 `;
 
-const MealPlan = ({ range, planId }) => {
+const Plans = ({ range }) => {
   const [startDate, endDate] = range.split('-');
   const timestamps = getWeekTimestamps({ startDate, endDate });
 
-  const planQuery = useQuery(getPlansQuery, {
+  const plans = useQuery(getPlansQuery, {
     variables: {
       startDate: new Date(Number(startDate)),
       endDate: new Date(Number(endDate)),
     },
   });
 
-  const plans = planQuery.data?.getPlans || [];
-
   return (
     <Container style={{ height: '100%' }}>
-      <List timestamps={timestamps} planId={planId} loading={planQuery.loading} plans={plans} />
+      <List timestamps={timestamps} plans={plans} />
     </Container>
   );
 };
 
-export default MealPlan;
+export default Plans;

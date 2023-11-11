@@ -1,6 +1,6 @@
 'use client';
 
-import Meal from '@/pages/Meal';
+import Meal from '@/pages/Plan';
 // import { gql } from '@apollo/client';
 // import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 // import { Text, Container, TextInput } from '@mantine/core';
@@ -58,8 +58,8 @@ import Meal from '@/pages/Meal';
 // };
 
 const MealPage = ({ params }) => {
-  const { mealPlanId } = params;
-  return <Meal id={mealPlanId} />;
+  const { id, range } = params;
+  return <Meal id={id} range={range} />;
 };
 
 export default MealPage;

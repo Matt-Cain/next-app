@@ -3,39 +3,31 @@
 import { Button, Container, Fieldset, Group, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
+
 import Dialog from '@/components/Dialog';
-import useMealPlan from '@/hooks/useMealPlan';
+import usePlan from '@/hooks/usePlan/usePlan';
 import AddCourse from './components/AddCourse';
 import SidesTable from './components/SidesTable';
 import useMealPlanForm from './hooks/useMealPlanForm';
 
-const Meal = ({ id }) => {
-  const mealPlan = useMealPlan({ id });
+const Plan = ({ id, range }) => {
+  const [deleteModelOpened, deleteModalHandler] = useDisclosure(false);
+
+  const plan = usePlan({ id });
   const router = useRouter();
 
-  const [destructiveDialogOpened, destructiveDialogHandler] = useDisclosure(false);
+  const form = useMealPlanForm({ plan: plan?.data });
 
-  const form = useMealPlanForm({ mealPlan: mealPlan?.data?.meal });
-
-  const hasMeal = mealPlan?.data?.meal;
-
-  const handleDestructiveAction = () => {
-    if (id) mealPlan.remove();
+  const handleDeletePlan = () => {
+    plan.remove();
     form.clear();
     destructiveDialogHandler.close();
-    router.push('/courses');
+    router.push(`/plans/${range}`);
   };
 
-  const createOrUpdate = () => {
-    let success = false;
-
-    if (hasMeal) {
-      success = mealPlan.update(form.main.values);
-    } else {
-      success = mealPlan.create(form.main.values);
-    }
-
-    if (success) router.push('/plans');
+  const handleUpdatePlan = () => {
+    const success = plan.update(form.main.values);
+    if (success) router.push(`/plans/${range}`);
   };
 
   return (
@@ -65,23 +57,23 @@ const Meal = ({ id }) => {
         />
       </Fieldset>
       <Group>
-        <Button onClick={createOrUpdate} mt={20}>
-          {hasMeal ? 'Update Meal' : 'Create Meal'}
+        <Button onClick={handleUpdatePlan} mt={20}>
+          Update Plan
         </Button>
-        <Button onClick={destructiveDialogHandler.open} variant="outline" mt={20} color="red">
-          {hasMeal ? 'Delete Meal' : 'Clear Meal'}
+        <Button onClick={deleteModalHandler.open} variant="outline" mt={20} color="red">
+          Delete Plan
         </Button>
       </Group>
       <Dialog
-        opened={destructiveDialogOpened}
-        onClose={destructiveDialogHandler.close}
-        onDestroy={handleDestructiveAction}
-        title={hasMeal ? 'Delete the meal' : 'Clear the meal'}
-        safeText="Keep Meal"
-        dangerText={hasMeal ? 'Delete Meal' : 'Clear Meal'}
+        opened={deleteModelOpened}
+        onClose={deleteModalHandler.close}
+        onDestroy={handleDeletePlan}
+        title="Delete the plan"
+        safeText="Keep Plan"
+        dangerText="Delete Plan"
       />
     </Container>
   );
 };
 
-export default Meal;
+export default Plan;

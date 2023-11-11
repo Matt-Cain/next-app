@@ -9,9 +9,9 @@ import {
   getWeeksInMonth,
   getMonthName,
 } from '@/utils/dates';
-import MealPlanItem from './components/MealPlanItem';
+import PlanItem from './components/PlanItem';
 
-const MealPlans = () => {
+const FindPlan = () => {
   const [month, setMonth] = useState(getCurrentMonthNumber());
   const [year, setYear] = useState(getCurrentYearNumber());
 
@@ -43,16 +43,19 @@ const MealPlans = () => {
         <ActionIcon onClick={prevMonth} variant="transparent" aria-label="Settings">
           <AiOutlineDoubleLeft style={{ width: '70%', height: '70%' }} stroke={1.5} />
         </ActionIcon>
+
         <h1 style={{ width: '200px', textAlign: 'center' }}>{monthName}</h1>
+
         <ActionIcon onClick={nextMonth} variant="transparent" aria-label="Settings">
           <AiOutlineDoubleRight style={{ width: '70%', height: '70%' }} stroke={1.5} />
         </ActionIcon>
       </Center>
+
       {weeks.map((data) => (
-        <MealPlanItem key={data.startDate.toString()} data={data} />
+        <PlanItem key={data.startDate.toString()} data={data} />
       ))}
     </Container>
   );
 };
 
-export default MealPlans;
+export default FindPlan;

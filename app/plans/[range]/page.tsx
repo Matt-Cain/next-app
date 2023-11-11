@@ -1,4 +1,4 @@
-import MealPlan from '@/pages/MealPlan';
+import MealPlan from '@/pages/Plans';
 
 const MealPlanContainer = async ({ params }) => {
   const { range } = params;
