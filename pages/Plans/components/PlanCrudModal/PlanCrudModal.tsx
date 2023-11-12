@@ -1,16 +1,8 @@
 import { Modal, Group, Button, TextInput, Stack } from '@mantine/core';
 import { useInputState, useDisclosure } from '@mantine/hooks';
 
-const PlanCrudModal = ({
-  plan,
-  opened,
-  handler,
-  isPlaceholder,
-  id,
-  refetchPlans,
-  goToPlan,
-  timestamp,
-}) => {
+const PlanCrudModal = ({ goToPlan, handler, opened, plan, planData, refetchPlans }) => {
+  const { id, isPlaceholder, timestamp } = planData || {};
   const [showPlaceholder, placeholderHandler] = useDisclosure(false);
   const [name, setName] = useInputState('');
 

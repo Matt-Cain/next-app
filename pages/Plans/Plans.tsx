@@ -18,14 +18,7 @@ const Plans = ({ range }) => {
     <Container style={{ height: '100%' }}>
       <Flex mt="-5px" gap="md" justify="space-evenly" direction="column" style={{ height: '100%' }}>
         {plans.dnd.items.map((plan, index) => (
-          <PlanItem
-            key={index}
-            index={index}
-            title={days[index]}
-            plan={plan}
-            plans={plans}
-            dnd={plans.dnd}
-          />
+          <PlanItem key={index} index={index} title={days[index]} planData={plan} plans={plans} />
         ))}
       </Flex>
     </Container>
