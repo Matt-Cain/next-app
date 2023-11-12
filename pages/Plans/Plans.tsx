@@ -1,36 +1,33 @@
 'use client';
 
-import { gql } from '@apollo/client';
-import { Container } from '@mantine/core';
-import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import List from '@/pages/Plans/components/List';
-import { getWeekTimestamps } from '@/utils/dates';
+import { useEffect } from 'react';
+import { Container, Flex } from '@mantine/core';
+import PlanItem from './components/PlanItem';
+import usePlans from '@/hooks/usePlans';
 
-const getPlansQuery = gql`
-  query GetPlans($startDate: Date!, $endDate: Date!) {
-    getPlans(startDate: $startDate, endDate: $endDate) {
-      id
-      isPlaceholder
-      name
-      timestamp
-    }
-  }
-`;
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 const Plans = ({ range }) => {
-  const [startDate, endDate] = range.split('-');
-  const timestamps = getWeekTimestamps({ startDate, endDate });
+  const plans = usePlans({ range });
 
-  const plans = useQuery(getPlansQuery, {
-    variables: {
-      startDate: new Date(Number(startDate)),
-      endDate: new Date(Number(endDate)),
-    },
-  });
+  useEffect(() => {
+    plans.refetch();
+  }, [range]);
 
   return (
     <Container style={{ height: '100%' }}>
-      <List timestamps={timestamps} plans={plans} />
+      <Flex mt="-5px" gap="md" justify="space-evenly" direction="column" style={{ height: '100%' }}>
+        {plans.dnd.items.map((plan, index) => (
+          <PlanItem
+            key={index}
+            index={index}
+            title={days[index]}
+            plan={plan}
+            plans={plans}
+            dnd={plans.dnd}
+          />
+        ))}
+      </Flex>
     </Container>
   );
 };

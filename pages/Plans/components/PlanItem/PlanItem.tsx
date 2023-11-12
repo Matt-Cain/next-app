@@ -1,12 +1,12 @@
 'use client';
 
-import { gql, useMutation } from '@apollo/client';
 import Link from 'next/link';
 import { Group, Skeleton, Flex, Text, Fieldset, ThemeIcon } from '@mantine/core';
 import { RiDraggable } from 'react-icons/ri';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDisclosure } from '@mantine/hooks';
 import PlanCrudModal from '../PlanCrudModal';
+import usePlan from '@/hooks/usePlan';
 
 const Item = ({ name, handleCreateItem, index, dnd }) => {
   const handlePointerDown = (e) => {
@@ -42,65 +42,33 @@ const Item = ({ name, handleCreateItem, index, dnd }) => {
   );
 };
 
-const createPlanMutation = gql`
-  mutation CreatePlan($timestamp: Date!, $name: String, $isPlaceholder: Boolean) {
-    createPlan(timestamp: $timestamp, name: $name, isPlaceholder: $isPlaceholder)
-  }
-`;
-
-const updatePlanMutation = gql`
-  mutation UpdatePlan($id: ID!, $placeholder: String) {
-    updatePlan(id: $id, placeholder: $placeholder)
-  }
-`;
-
-const ListItem = ({ plan, plans, title, index, dnd }) => {
-  const { isPlaceholder, id, name, timestamp } = plan || {};
+const PlanItem = ({ plan: planData, plans, title, index, dnd }) => {
+  const { isPlaceholder, id, name, timestamp } = planData || {};
+  const plan = usePlan({ id, skip: true });
 
   const router = useRouter();
+
   const [opened, handler] = useDisclosure();
+
   const pathName = usePathname();
-
-  const [callCreateMutation] = useMutation(createPlanMutation, {
-    onCompleted: ({ createPlan }) => {
-      const { id: newId, placeholder: newPlaceholder } = createPlan;
-
-      if (newPlaceholder) return;
-      router.push(`${pathName}/meal/${newId}`);
-    },
-  });
-
-  const [callUpdateMutation] = useMutation(updatePlanMutation, {
-    onCompleted: ({ updatePlan }) => {
-      if (updatePlan) plans.refetch();
-    },
-  });
-
   const pathToMeal = `${pathName}/meal/${id}`;
 
-  const mutateMeal = ({ isPlaceholder: newIsPlaceholder, name: newName }) => {
-    if (id) {
-      callUpdateMutation({
-        variables: { id, placeholder: newPlaceholder },
-      });
-    } else {
-      callCreateMutation({
-        variables: {
-          timestamp: new Date(timestamp),
-          isPlaceholder: newIsPlaceholder,
-          name: newName,
-        },
-      });
-    }
-  };
+  const goToPlan = () => router.push(pathToMeal);
 
   return (
-    <Skeleton visible={plans.loading} style={{ height: '100%', width: '100%', flex: 1 }}>
+    <Skeleton
+      visible={plans.loading && !plans.data}
+      style={{ height: '100%', width: '100%', flex: 1 }}
+    >
       <PlanCrudModal
+        id={id}
         isPlaceholder={isPlaceholder}
-        mutateMeal={mutateMeal}
+        plan={plan}
+        timestamp={timestamp}
         opened={opened}
         handler={handler}
+        goToPlan={goToPlan}
+        refetchPlans={plans.refetch}
       />
       <Fieldset
         style={{ width: '100%', height: '100%', flex: 1 }}
@@ -115,10 +83,10 @@ const ListItem = ({ plan, plans, title, index, dnd }) => {
         variant="filled"
         className="dropzone"
       >
-        {id ? (
+        {id && !isPlaceholder ? (
           <Link
             draggable={false}
-            disable={!plan}
+            disable={!planData}
             href={pathToMeal}
             style={{ textDecoration: 'none', color: 'inherit' }}
           >
@@ -132,4 +100,4 @@ const ListItem = ({ plan, plans, title, index, dnd }) => {
   );
 };
 
-export default ListItem;
+export default PlanItem;

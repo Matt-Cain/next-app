@@ -1,20 +1,20 @@
 import { gql } from '@apollo/client/core';
 
-// export const CREATE_PLAN = gql`
-//   mutation CreatePlan($planId: ID!, $name: String!, $entree: ID!, $sides: [ID]!) {
-//     createMeal(planId: $planId, name: $name, entree: $entree, sides: $sides)
-//   }
-// `;
+export const CREATE_PLAN = gql`
+  mutation CreatePlan($timestamp: Date!, $name: String, $isPlaceholder: Boolean) {
+    createPlan(timestamp: $timestamp, name: $name, isPlaceholder: $isPlaceholder)
+  }
+`;
 
 export const UPDATE_PLAN = gql`
-  mutation UpdatePlan(
-    $entree: ID!
-    $id: ID!
-    $isPlaceholder: Boolean
-    $name: String!
-    $sides: [ID]!
-  ) {
+  mutation UpdatePlan($entree: ID, $id: ID!, $isPlaceholder: Boolean, $name: String, $sides: [ID]) {
     updatePlan(entree: $entree, id: $id, isPlaceholder: $isPlaceholder, name: $name, sides: $sides)
+  }
+`;
+
+export const DELETE_PLAN = gql`
+  mutation DeletePlan($id: ID!) {
+    deletePlan(id: $id)
   }
 `;
 

@@ -7,16 +7,19 @@ const capitalizeString = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const SideRow = ({ name, removeSide, index }) => (
-  <Table.Tr key={name}>
-    <Table.Td>{capitalizeString(name)}</Table.Td>
-    <Table.Td>
-      <ActionIcon color="red.4" onClick={() => removeSide(index)} variant="transparent" radius="xl">
-        <CiCircleRemove stroke={1.5} size={40} />
-      </ActionIcon>
-    </Table.Td>
-  </Table.Tr>
-);
+const SideRow = ({ name, removeSide, index }) => {
+  const handleRemoveSide = () => removeSide(index);
+  return (
+    <Table.Tr key={name}>
+      <Table.Td>{capitalizeString(name)}</Table.Td>
+      <Table.Td>
+        <ActionIcon color="red.4" onClick={handleRemoveSide} variant="transparent" radius="xl">
+          <CiCircleRemove stroke={1.5} size={40} />
+        </ActionIcon>
+      </Table.Td>
+    </Table.Tr>
+  );
+};
 
 const SidesTable = ({ sides, removeSide }) => {
   const rows = sides.map((side, index) => (

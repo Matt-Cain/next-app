@@ -8,9 +8,10 @@ import Dialog from '@/components/Dialog';
 import usePlan from '@/hooks/usePlan/usePlan';
 import AddCourse from './components/AddCourse';
 import SidesTable from './components/SidesTable';
-import useMealPlanForm from './hooks/useMealPlanForm';
+import useMealPlanForm from './hooks/usePlanForm';
 
 const Plan = ({ id, range }) => {
+  console.log({ id, range });
   const [deleteModelOpened, deleteModalHandler] = useDisclosure(false);
 
   const plan = usePlan({ id });
@@ -21,7 +22,7 @@ const Plan = ({ id, range }) => {
   const handleDeletePlan = () => {
     plan.remove();
     form.clear();
-    destructiveDialogHandler.close();
+    deleteModalHandler.close();
     router.push(`/plans/${range}`);
   };
 

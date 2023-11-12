@@ -1,25 +1,25 @@
 import { useState } from 'react';
 
 const useDragAndDrop = ({ list, updater }) => {
-  const [listItems, setListItems] = useState(list);
+  const [items, setItems] = useState(list);
   const [isDragging, setIsDragging] = useState(false);
   const [canDragState, setCanDragState] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(null);
 
   const handleUpdateList = async ({ from, to }) => {
-    const prevList = listItems;
-    const newList = [...listItems];
-    newList[to] = listItems[from];
-    newList[from] = listItems[to];
-    setListItems(newList);
+    const prevList = items;
+    const newList = [...items];
+    newList[to] = items[from];
+    newList[from] = items[to];
+    setItems(newList);
 
-    const fromItem = listItems[from];
-    const toItem = listItems[to];
+    const fromItem = items[from];
+    const toItem = items[to];
 
-    const success = await updater({ fromItem, toItem });
+    const success = await updater({ from: fromItem, to: toItem });
 
     if (!success) {
-      setListItems(prevList);
+      setItems(prevList);
     }
   };
 
@@ -71,13 +71,13 @@ const useDragAndDrop = ({ list, updater }) => {
     canDrag,
     handleUpdateList,
     isDragging,
-    listItems,
+    items,
     onDragEnd,
     onDragLeave,
     onDragOver,
     onDragStart,
     onDrop,
-    setListItems,
+    setItems,
   };
 };
 
