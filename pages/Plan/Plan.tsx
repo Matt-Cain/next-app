@@ -11,7 +11,6 @@ import SidesTable from './components/SidesTable';
 import useMealPlanForm from './hooks/usePlanForm';
 
 const Plan = ({ id, range }) => {
-  console.log({ id, range });
   const [deleteModelOpened, deleteModalHandler] = useDisclosure(false);
 
   const plan = usePlan({ id });

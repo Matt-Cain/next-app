@@ -1,3 +1,7 @@
-import MealPlans from '@/pages/FindPlan';
+import Finder from '@/pages/Finder';
 
-export default MealPlans;
+const Plans = () => {
+  return <Finder route="plans" />;
+};
+
+export default Plans;

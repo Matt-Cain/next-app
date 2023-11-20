@@ -10,13 +10,10 @@ const Plan = ({ dnd, handlePlanClick, index, pathToPlan, planData }) => {
     dnd.canDrag(true);
   };
 
+  const linkToPlan = id && !isPlaceholder ? pathToPlan : '';
+
   return (
-    <Link
-      draggable={false}
-      disable={!id || isPlaceholder}
-      href={pathToPlan}
-      style={{ textDecoration: 'none', color: 'inherit' }}
-    >
+    <Link draggable={false} href={linkToPlan} style={{ textDecoration: 'none', color: 'inherit' }}>
       <Flex
         onPointerDown={handlePlanClick}
         justify="space-between"

@@ -9,9 +9,9 @@ import {
   getWeeksInMonth,
   getMonthName,
 } from '@/utils/dates';
-import PlanItem from './components/PlanItem';
+import PlanItem from './components/Item';
 
-const FindPlan = () => {
+const Finder = ({ route }) => {
   const [month, setMonth] = useState(getCurrentMonthNumber());
   const [year, setYear] = useState(getCurrentYearNumber());
 
@@ -52,10 +52,10 @@ const FindPlan = () => {
       </Center>
 
       {weeks.map((data) => (
-        <PlanItem key={data.startDate.toString()} data={data} />
+        <PlanItem key={data.startDate.toString()} data={data} route={route} />
       ))}
     </Container>
   );
 };
 
-export default FindPlan;
+export default Finder;

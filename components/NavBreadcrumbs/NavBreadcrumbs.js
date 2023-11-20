@@ -6,51 +6,36 @@ import { Flex, Breadcrumbs, Anchor, AppShell, Burger, Center } from '@mantine/co
 import { usePathname } from 'next/navigation';
 import NavBar from '@/components/NavBar';
 
-const getMealBreadcrumbs = (segments) => {
-  const breadCrumbNames = ['Plans', 'Plan', undefined, 'Meal'];
+const breadcrumbTitles = {
+  courses: [{ title: 'Courses' }, { title: 'Course' }],
+  plans: [{ title: 'Plans' }, { title: 'Plan' }, { skip: true }, { title: 'Meal' }],
+  shopping: [{ title: 'Grocery Lists' }, { title: 'List' }, { skip: true }],
+};
+
+const getBreadcrumbs = (segments) => {
+  const segmentKey = segments[0];
+  const breadCrumbNames = breadcrumbTitles[segmentKey];
 
   const parsedCrumbs = segments.reduce(
     (acc, segment, index) => {
+      const { title, skip } = breadCrumbNames[index];
+
       acc.breadcrumbPath += `/${segment}`;
-      if (index === 2) return acc;
-      acc.breadcrumbs.push({ title: breadCrumbNames[index], href: acc.breadcrumbPath });
+
+      if (skip) return acc;
+      acc.breadcrumbs.push({ title, href: acc.breadcrumbPath });
       return acc;
     },
     { breadcrumbPath: '', breadcrumbs: [] }
   );
   return parsedCrumbs.breadcrumbs;
-};
-
-const getCourseBreadcrumbs = (segments) => {
-  const breadCrumbNames = ['Courses', 'Course'];
-
-  const parsedCrumbs = segments.reduce(
-    (acc, segment, index) => {
-      acc.breadcrumbPath += `/${segment}`;
-      if (index === 2) return acc;
-      acc.breadcrumbs.push({ title: breadCrumbNames[index], href: acc.breadcrumbPath });
-      return acc;
-    },
-    { breadcrumbPath: '', breadcrumbs: [] }
-  );
-  return parsedCrumbs.breadcrumbs;
-};
-
-const breadcrumbPaths = {
-  plans: getMealBreadcrumbs,
-  courses: getCourseBreadcrumbs,
 };
 
 const getBreadcrumbForPath = (path) => {
   const pathName = path.replace(/\/$/, '');
   const segments = pathName.split('/').filter((segment) => segment.trim() !== '');
-  const formatBreadcrumbForSegments = breadcrumbPaths[segments[0]];
 
-  if (!formatBreadcrumbForSegments) {
-    return [];
-  }
-
-  return formatBreadcrumbForSegments(segments);
+  return getBreadcrumbs(segments);
 };
 
 const NavBreadcrumbs = () => {

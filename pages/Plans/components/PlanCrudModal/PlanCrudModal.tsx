@@ -53,9 +53,11 @@ const PlanCrudModal = ({ goToPlan, handler, opened, plan, planData, refetchPlans
                 Cancel
               </Button>
               <Button onClick={handleChange}>{placeholderButtonText}</Button>
-              <Button onClick={handleRemove} variant="" color="red">
-                Remove
-              </Button>
+              {isPlaceholder && (
+                <Button onClick={handleRemove} variant="" color="red">
+                  Remove
+                </Button>
+              )}
             </Group>
           </Stack>
         ) : (

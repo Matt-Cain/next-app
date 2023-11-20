@@ -46,7 +46,6 @@ const Courses = () => {
   const [type, setType] = useInputState('entree');
   const router = useRouter();
 
-  // TODO: make this a next/link
   const handleAddMealClick = () => router.push('/courses/create');
 
   const { data, refetch } = useQuery(getCoursesQuery);

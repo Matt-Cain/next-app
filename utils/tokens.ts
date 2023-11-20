@@ -16,7 +16,6 @@ interface iToken {
 }
 
 export const setTokens = ({ accessToken, refreshToken }: tokens) => {
-  console.log('setTokens', { accessToken, refreshToken });
   localStorage.setItem('accessToken', accessToken);
   localStorage.setItem('refreshToken', refreshToken);
 };

@@ -4,15 +4,15 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Box, Text } from '@mantine/core';
 import { formatRange } from '@/utils/dates';
-import AddItem from '@/components/Item/Item';
+import AddItem from '@/components/Item/';
 
-const MealPlanItem = ({ data: { startDate, endDate } }) => {
+const Item = ({ data: { startDate, endDate }, route }) => {
   const router = useRouter();
 
   const range = formatRange({ startDate, endDate });
 
   const handleItemClick = () => {
-    router.push(`/plans/${startDate.getTime()}-${endDate.getTime()}`);
+    router.push(`/${route}/${startDate.getTime()}-${endDate.getTime()}`);
   };
 
   return (
@@ -26,4 +26,4 @@ const MealPlanItem = ({ data: { startDate, endDate } }) => {
   );
 };
 
-export default MealPlanItem;
+export default Item;
