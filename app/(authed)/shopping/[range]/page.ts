@@ -1,3 +1,5 @@
-import Shopping from '@/pages/Shopping';
+'use client';
+
+import Shopping from '@/page/Shopping';
 
 export default Shopping;

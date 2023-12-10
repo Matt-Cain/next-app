@@ -2,7 +2,9 @@ import { gql } from '@apollo/client/core';
 
 export const CREATE_PLAN = gql`
   mutation CreatePlan($timestamp: Date!, $name: String, $isPlaceholder: Boolean) {
-    createPlan(timestamp: $timestamp, name: $name, isPlaceholder: $isPlaceholder)
+    createPlan(timestamp: $timestamp, name: $name, isPlaceholder: $isPlaceholder) {
+      id
+    }
   }
 `;
 

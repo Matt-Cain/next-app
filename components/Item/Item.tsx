@@ -3,7 +3,12 @@
 import React from 'react';
 import { Box, Card, Center } from '@mantine/core';
 
-const Item = ({ handleClick, children }) => {
+type Props = {
+  handleClick?: () => void;
+  children: React.ReactNode;
+};
+
+const Item = ({ handleClick, children }: Props) => {
   return (
     <Box onClick={handleClick} style={{ cursor: 'pointer', marginTop: '20px' }}>
       <Card p="28">
@@ -11,6 +16,10 @@ const Item = ({ handleClick, children }) => {
       </Card>
     </Box>
   );
+};
+
+Item.defaultProps = {
+  handleClick: () => {},
 };
 
 export default Item;

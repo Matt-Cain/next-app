@@ -7,29 +7,50 @@ import {
   deletePlanNotification,
 } from './notifications';
 
-const normalize = ({ id }) => id;
-const normalizeArray = (array) => array.map(normalize);
+const normalize = ({ id }: { id: string }) => id;
+const normalizeArray = (array: any[]) => array.map(normalize);
 
-const call = (fn, data) => {
+const call = (fn: Function, data: any) => {
   if (typeof fn === 'function') fn(data);
 };
 
-const usePlan = ({ id, skip }) => {
+type usePlanProps = {
+  id: string;
+  skip?: boolean;
+};
+
+const usePlan = ({ id, skip }: usePlanProps) => {
   const { data, loading } = useQuery(GET_PLAN, { variables: { id }, skip });
   const [createPlan] = useMutation(CREATE_PLAN, createPlanNotification);
   const [updatePlan] = useMutation(UPDATE_PLAN, updatePlanNotification);
   const [deletePlan] = useMutation(DELETE_PLAN, deletePlanNotification);
 
-  const create = async ({ name, isPlaceholder, timestamp }, callback) => {
+  type CreateProps = {
+    name: string;
+    isPlaceholder: boolean;
+    timestamp: Date;
+  };
+
+  const create = async ({ name, isPlaceholder, timestamp }: CreateProps, callback: Function) => {
     const variables = { name, isPlaceholder, timestamp };
     const res = await createPlan({ variables });
-    const resData = res?.data?.createMeal;
+    const resData = res?.data?.createPlan;
 
     call(callback, resData);
     return resData;
   };
 
-  const update = async ({ isPlaceholder, name, entree, sides }, callback) => {
+  type UpdateProps = {
+    isPlaceholder: boolean;
+    name: string;
+    entree: { id: string } | null;
+    sides: { id: string }[];
+  };
+
+  const update = async (
+    { isPlaceholder, name, entree, sides }: UpdateProps,
+    callback?: Function
+  ) => {
     const entreeId = entree && normalize(entree);
     const sideIds = sides && normalizeArray(sides);
 
@@ -37,15 +58,21 @@ const usePlan = ({ id, skip }) => {
     const res = await updatePlan({ variables });
     const resData = res?.data?.updateMeal;
 
-    call(callback, resData);
+    if (typeof callback === 'function') {
+      call(callback, resData);
+    }
+
     return resData;
   };
 
-  const remove = async (callback) => {
+  const remove = async (callback?: Function) => {
     const res = await deletePlan({ variables: { id } });
     const resData = res?.data?.deleteMeal;
 
-    call(callback, resData);
+    if (typeof callback === 'function') {
+      call(callback, resData);
+    }
+
     return resData;
   };
 

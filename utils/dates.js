@@ -66,3 +66,14 @@ export const getWeekTimestamps = ({ startDate, endDate }) => {
 
   return timestamps;
 };
+
+export const getNowRangeParam = () => {
+  const today = new Date().setHours(0, 0, 0, 0);
+  const start = new Date(today);
+  const end = new Date(today);
+
+  start.setDate(start.getDate() - start.getDay());
+  end.setDate(end.getDate() + (6 - end.getDay()));
+
+  return `${start.getTime()}-${end.getTime()}`;
+};

@@ -1,20 +1,26 @@
 'use client';
 
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Flex, AppShell, Burger, Center } from '@mantine/core';
 import NavBar from '@/components/NavBar';
 import NavBreadcrumbs from '@/components/NavBreadcrumbs';
 
-const Layout = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+};
+
+const Layout = ({ children }: Props) => {
   const [opened, { toggle }] = useDisclosure();
+  const mediaQuery = useMediaQuery('(max-width: 767px)');
+  const isMobile = Boolean(mediaQuery);
 
   return (
     <AppShell
-      header={{ height: 60 }}
+      header={{ height: { sm: 0, md: 60, lg: 60 } }}
+      footer={{ height: 60 }}
       navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-      padding="md"
     >
-      <AppShell.Header>
+      <AppShell.Header hidden={isMobile}>
         <Flex style={{ height: '100%' }} align="center">
           <Center style={{ height: '100%', position: 'relative' }}>
             <Burger
@@ -29,8 +35,11 @@ const Layout = ({ children }) => {
         </Flex>
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        <NavBar />
+        <NavBar isMobile={isMobile} />
       </AppShell.Navbar>
+      <AppShell.Footer p="md" hidden={!isMobile}>
+        <NavBar isMobile={isMobile} />
+      </AppShell.Footer>
       <AppShell.Main style={{ height: '100dvh' }}>{children}</AppShell.Main>
     </AppShell>
   );

@@ -1,6 +1,12 @@
 import { useEffect } from 'react';
 
-const useFormStorage = ({ form, key, disable }) => {
+type useFormStorageProps = {
+  form: any;
+  key: string;
+  disable?: boolean;
+};
+
+const useFormStorage = ({ form, key, disable }: useFormStorageProps) => {
   useEffect(() => {
     if (disable) return;
 

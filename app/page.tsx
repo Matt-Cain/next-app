@@ -1,11 +1,3 @@
-import { Welcome } from '../components/Welcome/Welcome';
-import Authentication from '@/pages/Authentication';
+import Authentication from '@/page/Authentication';
 
-export default function HomePage() {
-  return (
-    <>
-      <Welcome />
-      <Authentication />
-    </>
-  );
-}
+export default Authentication;

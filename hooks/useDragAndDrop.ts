@@ -1,12 +1,17 @@
 import { useState } from 'react';
 
-const useDragAndDrop = ({ list, updater }) => {
+type DragAndDropProps = {
+  list: any[];
+  updater: (args: any) => Promise<boolean>;
+};
+
+const useDragAndDrop = ({ list, updater }: DragAndDropProps) => {
   const [items, setItems] = useState(list);
   const [isDragging, setIsDragging] = useState(false);
   const [canDragState, setCanDragState] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(null);
 
-  const handleUpdateList = async ({ from, to }) => {
+  const handleUpdateList = async ({ from, to }: { from: number; to: number }) => {
     const prevList = items;
     const newList = [...items];
     newList[to] = items[from];
@@ -23,7 +28,7 @@ const useDragAndDrop = ({ list, updater }) => {
     }
   };
 
-  const canDrag = (boolean) => {
+  const canDrag = (boolean: Boolean) => {
     if (typeof boolean === 'boolean') {
       setCanDragState(boolean);
       return boolean;
@@ -37,13 +42,13 @@ const useDragAndDrop = ({ list, updater }) => {
     setCanDragState(false);
   };
 
-  const onDragStart = (e) => {
+  const onDragStart = (e: any) => {
     e.stopPropagation();
     e.dataTransfer.setData('index', e.target.dataset.index);
     setIsDragging(true);
   };
 
-  const onDrop = (e) => {
+  const onDrop = (e: any) => {
     e.preventDefault();
     const from = e.dataTransfer.getData('index');
     const dropzone = e.target.closest('.dropzone');
@@ -53,7 +58,7 @@ const useDragAndDrop = ({ list, updater }) => {
     }
   };
 
-  const onDragOver = (e) => {
+  const onDragOver = (e: any) => {
     e.preventDefault();
     const { index } = e.target.dataset;
     if (index !== hoverIndex) {

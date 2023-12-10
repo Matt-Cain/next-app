@@ -23,6 +23,15 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Layout/index.js", "pages/Authentication/index.js", "pages/Course/index.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "components/Layout/index.js",
+    "page/Authentication/index.js",
+    "page/Course/index.js",
+    "app/(authed)/courses/create/page.js"
+  ],
   "exclude": ["node_modules"]
 }

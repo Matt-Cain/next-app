@@ -1,9 +1,15 @@
 'use client';
 
 import React from 'react';
-import Course from '@/pages/Course';
+import Course from '@/page/Course';
 
-const coursePage = ({ params }) => {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+const coursePage = ({ params }: Props) => {
   const { id } = params;
   return <Course id={id} />;
 };

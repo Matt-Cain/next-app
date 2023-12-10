@@ -1,4 +1,6 @@
-import Finder from '@/pages/Finder';
+'use client';
+
+import Finder from '@/page/Finder';
 
 const Plans = () => {
   return <Finder route="plans" />;

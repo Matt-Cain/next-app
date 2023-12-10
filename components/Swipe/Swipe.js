@@ -36,7 +36,7 @@ const Section = ({ background, children, grow, justify, slideRef, styles, visibl
 
 const Delete = ({ visible }) => (
   <Section justify="flex-end" background="red" visible={visible}>
-    <Text>Remove</Text>
+    <Text>Have at home</Text>
     <MdDelete />
   </Section>
 );
@@ -44,7 +44,7 @@ const Delete = ({ visible }) => (
 const Add = ({ visible }) => (
   <Section justify="flex-start" background="green" visible={visible}>
     <IoAddCircleOutline size="20" />
-    <Text>Add</Text>
+    <Text>Add to cart</Text>
   </Section>
 );
 
@@ -60,8 +60,9 @@ const Item = ({ children, slideRef, style }) => (
   </Section>
 );
 
-const Swipe = ({ children, onSwipe }) => {
-  const { ref, style, swipeDirection } = useSwipe({ onSwipe });
+const Swipe = ({ children, id, onSwipe }) => {
+  const handleSwipe = (direction) => onSwipe({ id, direction });
+  const { ref, style, swipeDirection } = useSwipe({ onSwipe: handleSwipe });
 
   const isAddVisible = swipeDirection === 'right';
   const isDeleteVisible = swipeDirection === 'left';

@@ -38,6 +38,7 @@ const updateCourseMutation = gql`
       name
       recipe
       ingredients {
+        id
         name
         quantity
         unit
@@ -54,6 +55,7 @@ const getCourseQuery = gql`
       name
       recipe
       ingredients {
+        id
         name
         quantity
         unit
@@ -119,15 +121,27 @@ const deleteCourseNotification = {
   },
 };
 
-const normalizeIngredients = (ingredients) => {
-  return ingredients.map(({ name, quantity, unit }) => ({
+type Ingredient = {
+  id?: string;
+  name: string;
+  quantity: number;
+  unit: string;
+};
+
+const normalizeIngredients = (ingredients: Ingredient[]) => {
+  return ingredients.map(({ id, name, quantity, unit }) => ({
+    id,
     name: name.trim(),
     quantity,
     unit,
   }));
 };
 
-const useCourse = ({ id: courseId }) => {
+type Props = {
+  id?: string;
+};
+
+const useCourse = ({ id: courseId }: Props) => {
   const [createCourse] = useMutation(createCourseMutation, createCourseNotification);
   const [updateCourse] = useMutation(updateCourseMutation, updateCourseNotification);
   const [deleteCourse] = useMutation(deleteCourseMutation, deleteCourseNotification);
@@ -137,13 +151,28 @@ const useCourse = ({ id: courseId }) => {
     skip: !courseId,
   });
 
-  const create = ({ type, name, recipe, ingredients }) => {
+  type CreateProps = {
+    type: string;
+    name: string;
+    recipe: string;
+    ingredients: Ingredient[];
+  };
+
+  const create = ({ type, name, recipe, ingredients }: CreateProps) => {
     return createCourse({
       variables: { type, name, recipe, ingredients },
     });
   };
 
-  const update = ({ id, type, name, recipe, ingredients }) => {
+  type UpdateProps = {
+    id: string;
+    type: string;
+    name: string;
+    recipe: string;
+    ingredients: Ingredient[];
+  };
+
+  const update = ({ id, type, name, recipe, ingredients }: UpdateProps) => {
     return updateCourse({
       variables: { id, type, name, recipe, ingredients: normalizeIngredients(ingredients) },
     });

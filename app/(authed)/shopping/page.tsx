@@ -1,4 +1,6 @@
-import Finder from '@/pages/Finder';
+'use client';
+
+import Finder from '@/page/Finder';
 
 const Shopping = () => {
   return <Finder route="shopping" />;

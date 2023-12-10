@@ -6,7 +6,22 @@ import { swapDatesNotification } from './notifications';
 import { getWeekTimestamps } from '@/utils/dates';
 import useDragAndDrop from '@/hooks/useDragAndDrop';
 
-const mapPlans = (plans, timestamps) => {
+type Plan = {
+  id: string;
+  timestamp: string;
+  name: string;
+  isPlaceholder: boolean;
+  entree: {
+    id: string;
+    name: string;
+  };
+  sides: {
+    id: string;
+    name: string;
+  }[];
+};
+
+const mapPlans = (plans: Plan[], timestamps: number[]) => {
   const mappedPlans = timestamps.map((timestamp) => {
     const plan = plans.find((p) => new Date(p.timestamp).getTime() === timestamp);
 
@@ -22,7 +37,11 @@ const mapPlans = (plans, timestamps) => {
   return mappedPlans;
 };
 
-const usePlans = ({ range }) => {
+type usePlansProps = {
+  range: string;
+};
+
+const usePlans = ({ range }: usePlansProps) => {
   const [startDate, endDate] = range.split('-');
 
   const [swap] = useMutation(SWAP_DATES, swapDatesNotification);
@@ -34,7 +53,7 @@ const usePlans = ({ range }) => {
     },
   });
 
-  const swapDates = async ({ from, to }) => {
+  const swapDates = async ({ from, to }: { from: any; to: any }) => {
     const res = await swap({
       variables: {
         from: {

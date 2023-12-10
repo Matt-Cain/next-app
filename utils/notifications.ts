@@ -1,6 +1,11 @@
-import { notifications } from '@mantine/notifications';
+import { notifications, NotificationData } from '@mantine/notifications';
 
-const createNotification = (notification = {}) => ({
+type NotificationType = {
+  SUCCESS?: NotificationData;
+  ERROR?: NotificationData;
+};
+
+const createNotification = (notification: NotificationType = {}) => ({
   onCompleted: () => {
     if (notification.SUCCESS) {
       notifications.show(notification.SUCCESS);

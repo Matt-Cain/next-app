@@ -10,6 +10,9 @@ const breadcrumbTitles = {
   courses: [{ title: 'Courses' }, { title: 'Course' }],
   plans: [{ title: 'Plans' }, { title: 'Plan' }, { skip: true }, { title: 'Meal' }],
   shopping: [{ title: 'Grocery Lists' }, { title: 'List' }, { skip: true }],
+  inventory: [{ title: 'Inventory Lists' }, { title: 'Inventory' }, { skip: true }],
+  finder: [{ title: 'Finder' }],
+  settings: [{ title: 'Settings' }],
 };
 
 const getBreadcrumbs = (segments) => {

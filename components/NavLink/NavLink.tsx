@@ -1,17 +1,23 @@
 import Link from 'next/link';
 import { NavLink as NavWrapper } from '@mantine/core';
 
-const NavLink = ({ active, label, href, icon, children }) => (
+type Props = {
+  active?: boolean;
+  label?: string;
+  href?: string;
+  icon?: React.ReactNode;
+  isMobile?: boolean;
+};
+
+const NavLink = ({ active, label, href, icon, isMobile }: Props) => (
   <NavWrapper
     active={active}
-    label={label || ''}
+    label={isMobile ? undefined : label || ''}
     component={Link}
     href={href || ''}
     leftSection={icon}
     variant="subtle"
-  >
-    {children}
-  </NavWrapper>
+  />
 );
 
 export default NavLink;

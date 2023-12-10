@@ -25,12 +25,12 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>
-          <ModalsProvider>
+        <ApolloWrapper>
+          <MantineProvider theme={theme}>
             <Notifications position="bottom-center" />
-            <ApolloWrapper>{children}</ApolloWrapper>
-          </ModalsProvider>
-        </MantineProvider>
+            <ModalsProvider>{children}</ModalsProvider>
+          </MantineProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );

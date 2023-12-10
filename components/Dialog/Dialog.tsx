@@ -1,7 +1,16 @@
 import React from 'react';
 import { Button, Group, Flex, Text, Modal } from '@mantine/core';
 
-const Dialog = ({ opened, onClose, onDestroy, title, safeText, dangerText }) => {
+type Props = {
+  opened: boolean;
+  onClose: () => void;
+  onDestroy: () => void;
+  title: string;
+  safeText: string;
+  dangerText: string;
+};
+
+const Dialog = ({ opened, onClose, onDestroy, title, safeText, dangerText }: Props) => {
   return (
     <Modal withCloseButton={false} opened={opened} onClose={onClose} size="xs" radius="md" centered>
       <Flex justify="center" align="center" direction="column">
