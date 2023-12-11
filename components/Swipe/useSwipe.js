@@ -33,6 +33,12 @@ const useSwipe = ({ onSwipe }) => {
   const screen = useScreenLock();
   const swipeItemRef = useRef(null);
 
+  const timedOnSwipe = () => {
+    setTimeout(() => {
+      onSwipe(state.swiped);
+    }, 300);
+  };
+
   useEffect(() => {
     if (!swipeItemRef?.current) return;
 
@@ -69,10 +75,10 @@ const useSwipe = ({ onSwipe }) => {
 
     if (offset > width / 4) {
       setState({ offset: width });
-      onSwipe(SWIPED.RIGHT);
+      timedOnSwipe(SWIPED.RIGHT);
     } else if (offset < -width / 4) {
       setState({ offset: -width });
-      onSwipe(SWIPED.LEFT);
+      timedOnSwipe(SWIPED.LEFT);
     }
   };
 
