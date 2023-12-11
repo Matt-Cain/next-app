@@ -6,6 +6,7 @@ import { gql } from '@apollo/client';
 import { useInputState } from '@mantine/hooks';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
 import { Button, SegmentedControl, Group, Container, TextInput, Table } from '@mantine/core';
+import Header from '@/components/Header';
 
 const courseTypes = ['entree', 'side'];
 
@@ -71,6 +72,7 @@ const Courses = () => {
 
   return (
     <Container p="15" fluid>
+      <Header styles={{ mb: 10 }} title="Courses" />
       <Group>
         <SegmentedControl color="blue" data={courseTypes} value={type} onChange={setType} />
         <TextInput value={search} onChange={setSearch} style={{ flex: 1 }} placeholder="Search" />

@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { gql, useMutation } from '@apollo/client';
 import { Center, Button, Flex, Fieldset, TextInput, PasswordInput } from '@mantine/core';
 import { useToggle, useInputState } from '@mantine/hooks';
@@ -28,7 +29,8 @@ const singUpMutation = gql`
 const Authentication = () => {
   const [email, setEmail] = useInputState('');
   const [password, setPassword] = useInputState('');
-  const [isLogin, toggleFlow] = useToggle();
+  const [isLogin, toggleFlow] = useToggle([true, false]);
+  const router = useRouter();
 
   const mutation = isLogin ? loginMutation : singUpMutation;
 
@@ -36,7 +38,11 @@ const Authentication = () => {
     variables: { email, password },
     onCompleted: ({ login, signUp }) => {
       const tokens = login || signUp;
-      setTokens(tokens);
+
+      if (tokens) {
+        setTokens(tokens);
+        router.push('/');
+      }
     },
   });
 

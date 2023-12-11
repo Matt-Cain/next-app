@@ -2,7 +2,8 @@
 
 import jwt_decode from 'jwt-decode';
 
-const tokenList = ['accessToken', 'refreshToken'];
+const ACCESS_TOKEN_KEY = 'accessToken';
+const REFRESH_TOKEN_KEY = 'refreshToken';
 
 export interface tokens {
   accessToken: string;
@@ -16,17 +17,19 @@ interface iToken {
 }
 
 export const setTokens = ({ accessToken, refreshToken }: tokens) => {
-  localStorage.setItem('accessToken', accessToken);
-  localStorage.setItem('refreshToken', refreshToken);
+  if (!accessToken || !refreshToken) return;
+
+  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
 };
 
-export const getTokens = async () => {
-  const accessToken = await localStorage.getItem('accessToken');
-  const refreshToken = await localStorage.getItem('refreshToken');
+export const getTokens = () => {
+  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+
   return { accessToken, refreshToken };
 };
 
-// adapted from https://stackoverflow.com/a/69058154/2805154
 const isTokenValid = (token: string | null) => {
   if (token?.length) {
     const decodedToken = jwt_decode<iToken>(token);
@@ -37,14 +40,14 @@ const isTokenValid = (token: string | null) => {
   return false;
 };
 
-// see if the app has tokens set and at least one is not expired
-export const hasValidTokens = async () => {
-  const { accessToken, refreshToken } = await getTokens();
+export const hasValidTokens = () => {
+  const { accessToken, refreshToken } = getTokens();
   return isTokenValid(accessToken) || isTokenValid(refreshToken);
 };
 
 export const clearTokens = () => {
-  tokenList.forEach((token) => localStorage.removeItem(token));
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
 };
 
 export const tokenExpiryTime = (token: string) => new Date(jwt_decode<iToken>(token)?.iat);

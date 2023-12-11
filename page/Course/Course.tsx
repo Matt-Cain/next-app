@@ -19,6 +19,7 @@ import useCourse from '@/hooks/useCourse';
 import AddIngredientModal from './components/AddIngredientModal';
 import IngredientsTable from './components/IngredientsTable';
 import useCourseForm from './hooks/useCourseForm';
+import Header from '@/components/Header';
 
 type Ingredient = {
   id?: string;
@@ -68,6 +69,7 @@ const Course = ({ id }: { id?: string }) => {
 
   return (
     <Container fluid>
+      <Header styles={{ mt: 10 }} title={course.data ? 'Update Course' : 'Create Course'} />
       <Fieldset legend="Course Info">
         <TextInput
           style={{ marginBottom: '15px', flex: 1 }}

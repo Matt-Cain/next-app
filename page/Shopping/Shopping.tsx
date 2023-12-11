@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { Container } from '@mantine/core';
 import Swipe from '@/components/Swipe';
 import useShoppingList from '@/hooks/useShoppingList';
+import Header from '@/components/Header';
 
 const getDatesFromRange = (range: string) => {
   const [startDateString, endDateString] = range.split('-');
@@ -45,6 +46,7 @@ const Shopping = ({ params }: ShoppingProps) => {
 
   return (
     <Container p="15" fluid style={{ height: '100%' }}>
+      <Header title="Shopping" />
       {list?.map(({ id, name, quantity, unit }) => (
         <Swipe key={id} id={id} onSwipe={onSwipe}>
           {`${name} ${quantity} ${unit}`}

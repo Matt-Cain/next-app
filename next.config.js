@@ -10,4 +10,14 @@ module.exports = withBundleAnalyzer({
   experimental: {
     optimizePackageImports: ['@mantine/core', '@mantine/hooks'],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/plans',
+        basePath: false,
+        permanent: false,
+      },
+    ];
+  },
 });

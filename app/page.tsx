@@ -1,3 +1,7 @@
-import Authentication from '@/page/Authentication';
+'use client';
 
-export default Authentication;
+const Page = () => {
+  return <div>Redirecting...</div>;
+};
+
+export default Page;

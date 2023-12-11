@@ -3,6 +3,7 @@ import { Card, Center, Group, Text } from '@mantine/core';
 import { useEventListener, useMergedRef } from '@mantine/hooks';
 import { MdDelete } from 'react-icons/md';
 import { IoAddCircleOutline } from 'react-icons/io5';
+import useScreenLock from '@/hooks/useScreenLock';
 
 const SWIPED = {
   LEFT: 'left',
@@ -29,6 +30,7 @@ const initialState = {
 
 const useSwipe = ({ onSwipe }) => {
   const [state, setState] = useReducer(reducer, initialState);
+  const screen = useScreenLock();
   const swipeItemRef = useRef(null);
 
   useEffect(() => {
@@ -44,6 +46,7 @@ const useSwipe = ({ onSwipe }) => {
   };
 
   const handlePointerStart = (event) => {
+    screen.lock();
     stopEvent(event);
     setState({ pointerStartX: event.clientX, pointerDown: true });
   };
@@ -58,15 +61,16 @@ const useSwipe = ({ onSwipe }) => {
   };
 
   const handlePointerUp = () => {
+    screen.unlock();
     setState({ pointerDown: false, offset: 0 });
 
     const { left, width } = getRect(swipeItemRef);
     const offset = left - state.initialRect.left;
 
-    if (offset > width / 2) {
+    if (offset > width / 4) {
       setState({ offset: width });
       onSwipe(SWIPED.RIGHT);
-    } else if (offset < -width / 2) {
+    } else if (offset < -width / 4) {
       setState({ offset: -width });
       onSwipe(SWIPED.LEFT);
     }

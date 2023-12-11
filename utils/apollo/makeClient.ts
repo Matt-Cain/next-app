@@ -6,6 +6,7 @@ import {
   SSRMultipartLink,
 } from '@apollo/experimental-nextjs-app-support/ssr';
 import { setTokens, getTokens } from '@/utils/tokens';
+import { getBaseUrl } from '@/utils/url';
 
 const middleware = setContext(async (operation, { headers }) => {
   const { accessToken, refreshToken } = await getTokens();
@@ -32,7 +33,7 @@ const afterWare = new ApolloLink((operation, forward) =>
 
 const createHttpLink = () =>
   new HttpLink({
-    uri: 'http://localhost:4003/',
+    uri: getBaseUrl(),
     fetchOptions: { cache: 'no-store' },
   });
 

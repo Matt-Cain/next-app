@@ -4,6 +4,7 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { Flex, AppShell, Burger, Center } from '@mantine/core';
 import NavBar from '@/components/NavBar';
 import NavBreadcrumbs from '@/components/NavBreadcrumbs';
+import useAuth from '@/hooks/useAuth';
 
 type Props = {
   children: React.ReactNode;
@@ -13,6 +14,11 @@ const Layout = ({ children }: Props) => {
   const [opened, { toggle }] = useDisclosure();
   const mediaQuery = useMediaQuery('(max-width: 767px)');
   const isMobile = Boolean(mediaQuery);
+  const { loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <AppShell

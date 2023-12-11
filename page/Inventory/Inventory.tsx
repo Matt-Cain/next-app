@@ -5,6 +5,7 @@ import { Container } from '@mantine/core';
 import Swipe from '@/components/Swipe';
 import useInventory from '@/hooks/useInventory';
 import { getNowRangeParam } from '@/utils/dates';
+import Header from '@/components/Header';
 
 const getDatesFromRange = (range: string) => {
   const [startDateString, endDateString] = range.split('-');
@@ -21,8 +22,8 @@ type InventoryProps = {
 };
 
 type InventoryIngredientsType = {
-  id: string;
   item: {
+    id: string;
     name: string;
     quantity: number;
     unit: string;
@@ -49,7 +50,8 @@ const Inventory = ({ params }: InventoryProps) => {
 
   return (
     <Container p="15" fluid style={{ height: '100%' }}>
-      {list?.map(({ id, item: { name, quantity, unit } }) => (
+      <Header title="Inventory" />
+      {list?.map(({ item: { id, name, quantity, unit } }) => (
         <Swipe key={id} id={id} onSwipe={onSwipe}>
           {`${name} ${quantity} ${unit}`}
         </Swipe>

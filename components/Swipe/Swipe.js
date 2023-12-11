@@ -11,6 +11,16 @@ const cardStyle = {
   position: 'relative',
   height: '50px',
   borderRadius: '10px',
+  border: 'solid',
+  borderColor: 'gray',
+};
+
+const itemStyle = {
+  borderRadius: '8px',
+  border: 'solid',
+  borderWidth: '3px',
+  borderColor: 'var(--mantine-color-gray-8)',
+  touchAction: 'none',
 };
 
 const getStyle = ({ visible, styles }) => ({
@@ -50,10 +60,11 @@ const Add = ({ visible }) => (
 
 const Item = ({ children, slideRef, style }) => (
   <Section
-    background="gray"
+    background="gray.8"
+    color="gray.8"
     grow
     slideRef={slideRef}
-    styles={{ ...style, borderRadius: '10px' }}
+    styles={{ ...itemStyle, ...style }}
     visible={true}
   >
     <Center draggable="false">{children}</Center>
