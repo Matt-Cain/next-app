@@ -46,7 +46,9 @@ const Layout = ({ children }: Props) => {
       <AppShell.Footer p="md" hidden={!isMobile}>
         <NavBar isMobile={isMobile} />
       </AppShell.Footer>
-      <AppShell.Main style={{ height: '100dvh' }}>{children}</AppShell.Main>
+      <AppShell.Main style={{ height: '100dvh', marginBottom: '60px', overflowY: 'scroll' }}>
+        {children}
+      </AppShell.Main>
     </AppShell>
   );
 };

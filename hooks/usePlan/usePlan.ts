@@ -20,7 +20,7 @@ type usePlanProps = {
 };
 
 const usePlan = ({ id, skip }: usePlanProps) => {
-  const { data, loading } = useQuery(GET_PLAN, { variables: { id }, skip });
+  const { data, loading, refetch } = useQuery(GET_PLAN, { variables: { id }, skip });
   const [createPlan] = useMutation(CREATE_PLAN, createPlanNotification);
   const [updatePlan] = useMutation(UPDATE_PLAN, updatePlanNotification);
   const [deletePlan] = useMutation(DELETE_PLAN, deletePlanNotification);
@@ -56,7 +56,7 @@ const usePlan = ({ id, skip }: usePlanProps) => {
 
     const variables = { id, isPlaceholder, name, entree: entreeId, sides: sideIds };
     const res = await updatePlan({ variables });
-    const resData = res?.data?.updateMeal;
+    const resData = res?.data?.updatePlan;
 
     if (typeof callback === 'function') {
       call(callback, resData);
@@ -78,9 +78,10 @@ const usePlan = ({ id, skip }: usePlanProps) => {
 
   return {
     create,
-    update,
-    remove,
     loading,
+    refetch,
+    remove,
+    update,
     data: data ? data.getPlan : null,
   };
 };

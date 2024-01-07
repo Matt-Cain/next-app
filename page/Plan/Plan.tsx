@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Button, Container, Fieldset, Group, TextInput } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
@@ -9,6 +10,7 @@ import usePlan from '@/hooks/usePlan/usePlan';
 import AddCourse from './components/AddCourse';
 import SidesTable from './components/SidesTable';
 import useMealPlanForm from './hooks/usePlanForm';
+import Header from '@/components/Header';
 
 type PlanProps = {
   id: string;
@@ -19,6 +21,11 @@ const Plan = ({ id, range }: PlanProps) => {
   const [deleteModelOpened, deleteModalHandler] = useDisclosure(false);
 
   const plan = usePlan({ id });
+
+  useEffect(() => {
+    plan.refetch();
+  }, []);
+
   const router = useRouter();
 
   const form = useMealPlanForm({ plan: plan?.data });
@@ -37,6 +44,7 @@ const Plan = ({ id, range }: PlanProps) => {
 
   return (
     <Container fluid>
+      <Header styles={{ mt: '5' }} title="Plan" />
       <Fieldset legend="Meal Name">
         <TextInput
           style={{ flex: 1 }}

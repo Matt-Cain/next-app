@@ -26,22 +26,32 @@ const Plan = ({ dnd, handlePlanClick, index, planData }: PlanProps) => {
 
   const linkToPlan = id && !isPlaceholder ? pathToPlan : '';
 
+  const onContextMenu = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   return (
-    <Link draggable={false} href={linkToPlan} style={{ textDecoration: 'none', color: 'inherit' }}>
+    <Link
+      draggable={false}
+      href={linkToPlan}
+      onContextMenu={onContextMenu}
+      style={{ textDecoration: 'none', color: 'inherit' }}
+    >
       <Flex
-        onClick={handlePlanClick}
-        justify="space-between"
         align="center"
+        justify="space-between"
+        onClick={handlePlanClick}
         style={{ height: '100%', marginTop: '-4px', cursor: 'pointer' }}
       >
         <Group
           data-index={index}
           draggable={dnd.canDrag()}
-          onDragStart={dnd.onDragStart}
-          onDragEnd={dnd.onDragEnd}
           justify="space-between"
-          style={{ display: 'flex', flex: 1, touchAction: 'none' }}
+          onDragEnd={dnd.onDragEnd}
+          onDragStart={dnd.onDragStart}
           p="sm"
+          style={{ display: 'flex', flex: 1, touchAction: 'none' }}
         >
           {name && (
             <>

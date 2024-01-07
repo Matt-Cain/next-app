@@ -10,17 +10,17 @@ const cardStyle = {
   marginTop: '20px',
   position: 'relative',
   height: '50px',
-  borderRadius: '10px',
-  border: 'solid',
-  borderColor: 'gray',
+  overflow: 'hidden',
+  width: '100%',
+  backgroundClip: 'padding-box',
 };
 
 const itemStyle = {
-  borderRadius: '8px',
-  border: 'solid',
-  borderWidth: '3px',
-  borderColor: 'var(--mantine-color-gray-8)',
   touchAction: 'none',
+  inset: 0,
+  position: 'absolute',
+  cursor: 'pointer',
+  backgroundClip: 'padding-box',
 };
 
 const getStyle = ({ visible, styles }) => ({
@@ -28,6 +28,7 @@ const getStyle = ({ visible, styles }) => ({
   inset: 0,
   position: 'absolute',
   visibility: visible ? 'visible' : 'hidden',
+  backgroundClip: 'padding-box',
 });
 
 const Section = ({ background, children, grow, justify, slideRef, styles, visible }) => (
@@ -59,16 +60,15 @@ const Add = ({ visible }) => (
 );
 
 const Item = ({ children, slideRef, style }) => (
-  <Section
-    background="gray.8"
-    color="gray.8"
-    grow
-    slideRef={slideRef}
-    styles={{ ...itemStyle, ...style }}
-    visible={true}
+  <Paper
+    bg="gray.9"
+    ref={slideRef}
+    style={{ ...itemStyle, ...style, borderColor: '#ff004c', borderWidth: '20px' }}
   >
-    <Center draggable="false">{children}</Center>
-  </Section>
+    <Group c="white" grow p="10">
+      <Center draggable="false">{children}</Center>
+    </Group>
+  </Paper>
 );
 
 const Swipe = ({ children, id, onSwipe }) => {
@@ -79,13 +79,13 @@ const Swipe = ({ children, id, onSwipe }) => {
   const isDeleteVisible = swipeDirection === 'left';
 
   return (
-    <Card style={cardStyle}>
+    <Paper style={cardStyle} shadow="sm" radius="md">
       <Add visible={isAddVisible} />
       <Delete visible={isDeleteVisible} />
       <Item slideRef={ref} style={style}>
         {children}
       </Item>
-    </Card>
+    </Paper>
   );
 };
 

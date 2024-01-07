@@ -22,9 +22,9 @@ const withRange = (href: string) => {
 
 const links = [
   { label: 'Plans', href: withRange('/plans'), icon: mealPlanIcon },
-  { label: 'Courses', href: '/courses', icon: coursesIcon },
   { label: 'Shopping', href: withRange('/shopping'), icon: shoppingIcon },
   { label: 'Inventory', href: withRange('/inventory'), icon: inventoryIcon },
+  { label: 'Courses', href: '/courses', icon: coursesIcon },
   { label: 'Finder', href: '/finder', icon: finderIcon },
   { label: 'Settings', href: '/settings', icon: settingsIcon },
 ];

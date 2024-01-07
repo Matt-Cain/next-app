@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { Container } from '@mantine/core';
+import { Container, Paper, Text } from '@mantine/core';
 import Swipe from '@/components/Swipe';
 import useInventory from '@/hooks/useInventory';
 import { getNowRangeParam } from '@/utils/dates';
@@ -43,7 +43,6 @@ const Inventory = ({ params }: InventoryProps) => {
     inventory?.res?.data?.getInventoryList?.ingredients || [];
 
   const onSwipe = async ({ id }: { id: string }) => {
-    // const status = direction === 'left' ? 'home' : 'cart';
     await inventory.remove({ id, type: 'ingredient' });
     inventory.res.refetch();
   };
@@ -56,6 +55,11 @@ const Inventory = ({ params }: InventoryProps) => {
           {`${name} ${quantity} ${unit}`}
         </Swipe>
       ))}
+      {list?.length === 0 && (
+        <Paper bg="gray.9" shadow="sm" p="lg" mt="20" radius="md">
+          <Text align="center">Inventory List Empty</Text>
+        </Paper>
+      )}
     </Container>
   );
 };
