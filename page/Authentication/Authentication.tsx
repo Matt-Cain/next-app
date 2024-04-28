@@ -29,7 +29,7 @@ const singUpMutation = gql`
 const Authentication = () => {
   const [email, setEmail] = useInputState('');
   const [password, setPassword] = useInputState('');
-  const [isLogin, toggleFlow] = useToggle([true, false]);
+  const [isLogin, toggleFlow] = useToggle();
   const router = useRouter();
 
   const mutation = isLogin ? loginMutation : singUpMutation;

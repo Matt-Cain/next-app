@@ -1,8 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef, useReducer } from 'react';
-import { Card, Center, Group, Text } from '@mantine/core';
 import { useEventListener, useMergedRef } from '@mantine/hooks';
-import { MdDelete } from 'react-icons/md';
-import { IoAddCircleOutline } from 'react-icons/io5';
 import useScreenLock from '@/hooks/useScreenLock';
 
 const SWIPED = {
@@ -52,14 +49,11 @@ const useSwipe = ({ onSwipe }) => {
   };
 
   const handlePointerStart = (event) => {
-    screen.lock();
-    stopEvent(event);
     setState({ pointerStartX: event.clientX, pointerDown: true });
   };
 
   const handlePointerMove = (event) => {
     if (!state.pointerDown) return;
-    stopEvent(event);
 
     const currentX = event.clientX;
     const offset = currentX - state.pointerStartX;

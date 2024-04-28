@@ -42,12 +42,14 @@ const Plan = ({ dnd, handlePlanClick, index, planData }: PlanProps) => {
         align="center"
         justify="space-between"
         onClick={handlePlanClick}
+        onContextMenu={onContextMenu}
         style={{ height: '100%', marginTop: '-4px', cursor: 'pointer' }}
       >
         <Group
           data-index={index}
           draggable={dnd.canDrag()}
           justify="space-between"
+          onContextMenu={onContextMenu}
           onDragEnd={dnd.onDragEnd}
           onDragStart={dnd.onDragStart}
           p="sm"
@@ -56,7 +58,7 @@ const Plan = ({ dnd, handlePlanClick, index, planData }: PlanProps) => {
           {name && (
             <>
               <Text>{name}</Text>
-              <ThemeIcon color="gray" size="sm" variant="transparent">
+              <ThemeIcon color="gray" size="sm" variant="transparent" onContextMenu={onContextMenu}>
                 <RiDraggable onPointerDown={handlePointerDown} />
               </ThemeIcon>
             </>

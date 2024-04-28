@@ -1,0 +1,13 @@
+.mobileNavItem {
+  margin: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+}
+
+.active {
+  color: #74c0fc;
+}

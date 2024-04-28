@@ -7,7 +7,7 @@
     "build": "next build",
     "analyze": "ANALYZE=true next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit",
+    "tsc": "tsc --noEmit",
     "lint": "next lint",
     "jest": "jest",
     "jest:watch": "jest --watch",

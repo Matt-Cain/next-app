@@ -57,7 +57,7 @@ const Inventory = ({ params }: InventoryProps) => {
       ))}
       {list?.length === 0 && (
         <Paper bg="gray.9" shadow="sm" p="lg" mt="20" radius="md">
-          <Text align="center">Inventory List Empty</Text>
+          <Text>Inventory List Empty</Text>
         </Paper>
       )}
     </Container>

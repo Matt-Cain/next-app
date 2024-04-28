@@ -33,9 +33,10 @@ const NavBar = ({ isMobile }: { isMobile: boolean }) => {
   const pathName = usePathname();
 
   const flexDirection = isMobile ? 'row' : 'column';
+  const justifyContent = isMobile ? 'space-evenly' : 'flex-start';
 
   return (
-    <Flex direction={flexDirection}>
+    <Flex direction={flexDirection} justify={justifyContent} style={{ height: '100%' }}>
       {links.map((link) => (
         <NavLink
           isMobile={isMobile}

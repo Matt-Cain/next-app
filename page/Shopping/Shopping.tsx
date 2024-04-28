@@ -55,7 +55,7 @@ const Shopping = ({ params }: ShoppingProps) => {
         ))}
         {list?.length === 0 && (
           <Paper bg="gray.9" shadow="sm" p="lg" mt="20" radius="md">
-            <Text align="center">Shopping List Empty</Text>
+            <Text>Shopping List Empty</Text>
           </Paper>
         )}
       </div>

@@ -3,9 +3,9 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { gql } from '@apollo/client';
-import { useInputState } from '@mantine/hooks';
+import { useInputState, useMediaQuery } from '@mantine/hooks';
 import { useQuery } from '@apollo/experimental-nextjs-app-support/ssr';
-import { Button, SegmentedControl, Group, Container, TextInput, Table } from '@mantine/core';
+import { Button, SegmentedControl, Flex, Container, TextInput, Table } from '@mantine/core';
 import Header from '@/components/Header';
 
 const courseTypes = ['entree', 'side'];
@@ -70,14 +70,18 @@ const Courses = () => {
     </Table.Tr>
   ));
 
+  const mediaQuery = useMediaQuery('(max-width: 767px)');
+  const isMobile = Boolean(mediaQuery);
+  const flexDirection = isMobile ? 'column' : 'row';
+
   return (
     <Container p="15" fluid>
       <Header styles={{ mb: 10 }} title="Courses" />
-      <Group>
+      <Flex direction={flexDirection} gap="md">
         <SegmentedControl color="blue" data={courseTypes} value={type} onChange={setType} />
         <TextInput value={search} onChange={setSearch} style={{ flex: 1 }} placeholder="Search" />
         <Button onClick={handleAddMealClick}>Add new course</Button>
-      </Group>
+      </Flex>
       <Table>
         <Table.Thead>
           <Table.Tr>

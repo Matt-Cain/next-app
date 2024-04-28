@@ -60,11 +60,7 @@ const Add = ({ visible }) => (
 );
 
 const Item = ({ children, slideRef, style }) => (
-  <Paper
-    bg="gray.9"
-    ref={slideRef}
-    style={{ ...itemStyle, ...style, borderColor: '#ff004c', borderWidth: '20px' }}
-  >
+  <Paper bg="gray.9" ref={slideRef} style={{ ...itemStyle, ...style }}>
     <Group c="white" grow p="10">
       <Center draggable="false">{children}</Center>
     </Group>
