@@ -2,9 +2,10 @@
 
 import React, { useEffect } from 'react';
 import { Container, Text, Paper } from '@mantine/core';
-import Swipe from '@/components/Swipe';
+// import Swipe from '@/components/Swipe';
 import useShoppingList from '@/hooks/useShoppingList';
 import Header from '@/components/Header';
+import { CheckboxItem } from '@/components/CheckboxItem';
 
 const getDatesFromRange = (range: string) => {
   const [startDateString, endDateString] = range.split('-');
@@ -48,11 +49,7 @@ const Shopping = ({ params }: ShoppingProps) => {
     <Container p="15" fluid>
       <div style={{ height: '100%', overflowY: 'scroll' }}>
         <Header title="Shopping" />
-        {list?.map(({ id, name, quantity, unit }) => (
-          <Swipe key={id} id={id} onSwipe={onSwipe}>
-            {`${name} ${quantity} ${unit}`}
-          </Swipe>
-        ))}
+        {list?.map((item) => <CheckboxItem key={item.id} item={item} />)}
         {list?.length === 0 && (
           <Paper bg="gray.9" shadow="sm" p="lg" mt="20" radius="md">
             <Text>Shopping List Empty</Text>

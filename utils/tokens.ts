@@ -1,6 +1,6 @@
 'use client';
 
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const ACCESS_TOKEN_KEY = 'accessToken';
 const REFRESH_TOKEN_KEY = 'refreshToken';
@@ -32,7 +32,7 @@ export const getTokens = () => {
 
 const isTokenValid = (token: string | null) => {
   if (token?.length) {
-    const decodedToken = jwt_decode<iToken>(token);
+    const decodedToken = jwtDecode<iToken>(token);
     const currentTime = new Date().getTime() / 1000;
     return decodedToken.exp > currentTime;
   }
@@ -50,4 +50,4 @@ export const clearTokens = () => {
   localStorage.removeItem(REFRESH_TOKEN_KEY);
 };
 
-export const tokenExpiryTime = (token: string) => new Date(jwt_decode<iToken>(token)?.iat);
+export const tokenExpiryTime = (token: string) => new Date(jwtDecode<iToken>(token)?.iat);

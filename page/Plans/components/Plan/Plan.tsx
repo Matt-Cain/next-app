@@ -20,6 +20,7 @@ const Plan = ({ dnd, handlePlanClick, index, planData }: PlanProps) => {
 
   const handlePointerDown = (e: any) => {
     e.stopPropagation();
+    e.preventDefault();
     dnd.canDrag(true);
     screen.lock();
   };
