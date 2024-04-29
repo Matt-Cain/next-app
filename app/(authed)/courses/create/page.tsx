@@ -1,3 +1,5 @@
 import Course from '@/page/Course';
 
-export default Course;
+export default function CoursePage() {
+  return <Course />;
+}

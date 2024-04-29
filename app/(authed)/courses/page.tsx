@@ -1,5 +1,5 @@
-'use -client';
-
 import Courses from '@/page/Courses';
 
-export default Courses;
+export default function CoursesPage() {
+  return <Courses />;
+}

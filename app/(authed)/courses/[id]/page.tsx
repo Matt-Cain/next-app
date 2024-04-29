@@ -9,9 +9,9 @@ type Props = {
   };
 };
 
-const coursePage = ({ params }: Props) => {
+const CoursePage = ({ params }: Props) => {
   const { id } = params;
   return <Course id={id} />;
 };
 
-export default coursePage;
+export default CoursePage;
