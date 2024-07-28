@@ -18,7 +18,7 @@ const useAuth = () => {
 
   const { data, loading } = useQuery(ME, {
     onCompleted: ({ me }) => {
-      if (!me) router.push('/auth');
+      if (!loading && !me) router.push('/auth');
     },
   });
 

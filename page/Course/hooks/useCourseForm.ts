@@ -7,6 +7,7 @@ import useFormStorage from '@/hooks/useFormStorage';
 export type IngredientType = {
   id?: string;
   name: string;
+  section: string;
   quantity: number;
   unit: string;
 };

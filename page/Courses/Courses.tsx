@@ -14,12 +14,14 @@ const getCoursesQuery = gql`
   query GetCourses {
     getCourses {
       id
-      type
       name
       recipe
+      type
       ingredients {
+        id
         name
         quantity
+        section
         unit
       }
     }

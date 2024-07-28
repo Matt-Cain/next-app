@@ -10,19 +10,23 @@ type Item = {
   unit: string;
 };
 
-type Props = { item: Item };
+type Props = {
+  checked: boolean;
+  index: number;
+  item: Item;
+  onChange: (id: string, nextValue: boolean) => void;
+};
 
-export const CheckboxItem = ({ item }: Props) => {
-  const label = `${item.name} - ${item.quantity} ${item.unit}`;
+export const CheckboxItem = ({ checked, index, item, onChange }: Props) => {
+  const label = `${item.name} - ${item.unit} - ${item.quantity}`;
+
+  const handleChange = () => onChange(item.id, !checked);
+
   return (
     <Box style={{ cursor: 'pointer', marginTop: '15px' }}>
-      <Card p="15" radius="md">
-        <Checkbox label={label} radius="xl" />
+      <Card onClick={handleChange} p="15" radius="md">
+        <Checkbox checked={checked} label={label} radius="xl" readOnly />
       </Card>
     </Box>
   );
-};
-
-CheckboxItem.defaultProps = {
-  handleClick: () => {},
 };

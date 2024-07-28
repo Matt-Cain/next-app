@@ -1,6 +1,7 @@
 import useSWR from 'swr';
 import { Autocomplete, NumberInput, Button, Fieldset, Modal } from '@mantine/core';
 import { useForm, isNotEmpty } from '@mantine/form';
+import { SectionComboBox } from './SectionComboBox';
 
 const fetcher = (...args: any[]) =>
   fetch(...(args as [RequestInfo, RequestInit?])).then((res) => res.json());
@@ -35,6 +36,7 @@ const AddIngredientModal = ({ opened, close, addIngredient }: AddIngredientModal
   const form = useForm({
     initialValues: {
       name: '',
+      section: '',
       unit: '',
       quantity: 1,
     },
@@ -81,6 +83,7 @@ const AddIngredientModal = ({ opened, close, addIngredient }: AddIngredientModal
           data={cleanUndefined(units || [])}
           {...form.getInputProps('unit')}
         />
+        <SectionComboBox {...form.getInputProps('section')} />
         <NumberInput min={0} mt={15} label="Quantity" {...form.getInputProps('quantity')} />
         <Button onClick={handleAddIngredientClick} mt={20}>
           Add Ingredient

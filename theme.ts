@@ -3,6 +3,7 @@
 import { createTheme, virtualColor } from '@mantine/core';
 
 export const theme = createTheme({
+  cursorType: 'pointer',
   colors: {
     primary: virtualColor({
       name: 'primary',

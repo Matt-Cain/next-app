@@ -25,6 +25,7 @@ type Ingredient = {
   id?: string;
   name: string;
   quantity: number;
+  section: string;
   unit: string;
 };
 
@@ -56,8 +57,9 @@ const Course = ({ id }: { id?: string }) => {
 
   const createOrUpdate = () => {
     if (form.main.validate().hasErrors) return;
+    const formId = form.main.values.id;
 
-    if (typeof form.main.values.id === 'string' && form.main.values.id !== undefined) {
+    if (formId && typeof formId === 'string') {
       course.update(form.main.values as UpdateProps);
     } else {
       course.create(form.main.values);

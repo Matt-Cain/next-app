@@ -7,57 +7,37 @@ const createCourseMutation = gql`
   mutation CreateCourse(
     $type: CourseType!
     $name: String!
-    $recipe: String!
     $ingredients: [IngredientInput]!
+    $recipe: String
   ) {
-    createCourse(type: $type, name: $name, recipe: $recipe, ingredients: $ingredients) {
-      id
-      type
-      name
-      recipe
-      ingredients {
-        name
-        quantity
-        unit
-      }
-    }
+    createCourse(type: $type, name: $name, ingredients: $ingredients, recipe: $recipe)
   }
 `;
 
 const updateCourseMutation = gql`
   mutation UpdateCourse(
     $id: ID!
-    $type: CourseType!
-    $name: String!
-    $recipe: String!
-    $ingredients: [IngredientInput]!
+    $type: CourseType
+    $name: String
+    $recipe: String
+    $ingredients: [IngredientInput]
   ) {
-    updateCourse(id: $id, type: $type, name: $name, recipe: $recipe, ingredients: $ingredients) {
-      id
-      type
-      name
-      recipe
-      ingredients {
-        id
-        name
-        quantity
-        unit
-      }
-    }
+    updateCourse(id: $id, type: $type, name: $name, recipe: $recipe, ingredients: $ingredients)
   }
 `;
 
-const getCourseQuery = gql`
-  query GetCourse($id: ID!) {
-    getCourse(id: $id) {
+const getCoursesQuery = gql`
+  query GetCourses {
+    getCourses {
       id
-      type
       name
       recipe
+      type
       ingredients {
         id
         name
         quantity
+        section
         unit
       }
     }
@@ -125,14 +105,24 @@ type Ingredient = {
   id?: string;
   name: string;
   quantity: number;
+  section: string;
   unit: string;
 };
 
+type Course = {
+  id: string;
+  type: string;
+  name: string;
+  recipe: string;
+  ingredients: Ingredient[];
+};
+
 const normalizeIngredients = (ingredients: Ingredient[]) => {
-  return ingredients.map(({ id, name, quantity, unit }) => ({
+  return ingredients.map(({ id, name, quantity, section, unit }) => ({
     id,
     name: name.trim(),
     quantity,
+    section: section,
     unit,
   }));
 };
@@ -146,10 +136,9 @@ const useCourse = ({ id: courseId }: Props) => {
   const [updateCourse] = useMutation(updateCourseMutation, updateCourseNotification);
   const [deleteCourse] = useMutation(deleteCourseMutation, deleteCourseNotification);
 
-  const { data, loading } = useQuery(getCourseQuery, {
-    variables: { id: courseId },
-    skip: !courseId,
-  });
+  const { data, refetch, loading } = useQuery(getCoursesQuery);
+
+  const course = data?.getCourses.find((course: Course) => course.id === courseId);
 
   type CreateProps = {
     type: string;
@@ -185,9 +174,11 @@ const useCourse = ({ id: courseId }: Props) => {
 
   return {
     create,
+    course,
     update,
     remove,
-    data: data ? data.getCourse : null,
+    data: course,
+    refetch,
     loading,
   };
 };

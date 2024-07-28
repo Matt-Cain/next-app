@@ -11,15 +11,24 @@ type IngredientRowProps = {
   name: string;
   unit: string;
   quantity: string;
+  section: string;
   index: number;
   removeIngredient: (index: number) => void;
 };
 
-const IngredientRow = ({ name, unit, quantity, index, removeIngredient }: IngredientRowProps) => (
+const IngredientRow = ({
+  name,
+  unit,
+  quantity,
+  section,
+  index,
+  removeIngredient,
+}: IngredientRowProps) => (
   <Table.Tr key={name}>
     <Table.Td>{capitalizeString(name)}</Table.Td>
     <Table.Td>{unit}</Table.Td>
     <Table.Td>{quantity}</Table.Td>
+    <Table.Td>{section}</Table.Td>
     <Table.Td>
       <ActionIcon
         color="red.4"
@@ -55,6 +64,7 @@ const IngredientsTable = ({ ingredients, removeIngredient }: IngredientsTablePro
           <Table.Th>Name</Table.Th>
           <Table.Th>Unit</Table.Th>
           <Table.Th>Quantity</Table.Th>
+          <Table.Th>Section</Table.Th>
           <Table.Th />
         </Table.Tr>
       </Table.Thead>
