@@ -4,6 +4,7 @@ import {
   ActionIcon,
   Button,
   Container,
+  Grid,
   Fieldset,
   Flex,
   Group,
@@ -14,6 +15,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
 import { IoMdAdd } from 'react-icons/io';
+import { IconArrowLeft } from '@tabler/icons-react';
 import Dialog from '@/components/Dialog';
 import useCourse from '@/hooks/useCourse';
 import AddIngredientModal from './components/AddIngredientModal';
@@ -55,6 +57,10 @@ const Course = ({ id }: { id?: string }) => {
     router.push('/courses');
   };
 
+  const backToCourses = () => {
+    router.push('/courses');
+  };
+
   const createOrUpdate = () => {
     if (form.main.validate().hasErrors) return;
     const formId = form.main.values.id;
@@ -66,12 +72,20 @@ const Course = ({ id }: { id?: string }) => {
     }
 
     form.clear();
-    router.push('/courses');
+    backToCourses();
   };
 
   return (
     <Container fluid>
-      <Header styles={{ mt: 10 }} title={course.data ? 'Update Course' : 'Create Course'} />
+      <Flex style={{ marginTop: '10px', width: '100%' }} />
+      <Header title={course.data ? 'Update Course' : 'Create Course'} />
+
+      <Flex style={{ marginBottom: '15px', marginTop: '10px' }} align="center">
+        <Button onClick={backToCourses} leftSection={<IconArrowLeft size={14} />}>
+          Back to Courses
+        </Button>
+      </Flex>
+
       <Fieldset legend="Course Info">
         <TextInput
           style={{ marginBottom: '15px', flex: 1 }}

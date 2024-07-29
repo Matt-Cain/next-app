@@ -1,23 +1,39 @@
 import { InputBase, Combobox, useCombobox } from '@mantine/core';
 
-const SECTIONS = {
-  bakery: 'Bakery',
-  dairy: 'Dairy',
-  drinks: 'Drinks',
-  frozen: 'Frozen',
-  home: 'Home',
-  meat: 'Meat',
-  pantry: 'Pantry',
-  produce: 'Produce',
-  other: 'Other',
-};
+enum SECTIONS {
+  bakery = 'bakery',
+  cheese_and_dips = 'cheese_and_dips',
+  chips_and_bread = 'chips_and_bread',
+  dairy = 'dairy',
+  drinks = 'drinks',
+  frozen = 'frozen',
+  home = 'home',
+  meat = 'meat',
+  pantry = 'pantry',
+  produce = 'produce',
+}
 
-const sectionEntries = Object.entries(SECTIONS);
+export enum SECTION_LABELS {
+  bakery = 'Bakery',
+  cheese_and_dips = 'Cheese & dips',
+  chips_and_bread = 'Chips & Bread',
+  dairy = 'Dairy',
+  drinks = 'Drinks',
+  frozen = 'Frozen',
+  home = 'Home',
+  meat = 'Meat',
+  pantry = 'Pantry',
+  produce = 'Produce',
+}
+
+const sectionEntries = Object.entries(SECTION_LABELS).toReversed();
 
 export const SectionComboBox = ({
+  error,
   onChange,
   value,
 }: {
+  error?: string;
   onChange: (value: string) => void;
   value?: keyof typeof SECTIONS;
 }) => {
@@ -41,6 +57,7 @@ export const SectionComboBox = ({
     >
       <Combobox.Target>
         <InputBase
+          error={error}
           mt={15}
           label="Section"
           component="button"
@@ -50,7 +67,7 @@ export const SectionComboBox = ({
           rightSectionPointerEvents="none"
           onClick={() => combobox.toggleDropdown()}
         >
-          {value && SECTIONS[value]}
+          {value && SECTION_LABELS[value]}
         </InputBase>
       </Combobox.Target>
 

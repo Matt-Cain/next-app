@@ -42,6 +42,7 @@ const AddIngredientModal = ({ opened, close, addIngredient }: AddIngredientModal
     },
     validate: {
       name: isNotEmpty('Name is required'),
+      section: isNotEmpty('Section is required'),
       unit: isNotEmpty('Unit is required'),
     },
   });

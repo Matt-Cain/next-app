@@ -3,6 +3,32 @@
 import { ActionIcon, Table } from '@mantine/core';
 import { CiCircleRemove } from 'react-icons/ci';
 
+enum SECTIONS {
+  bakery = 'bakery',
+  cheese_and_dips = 'cheese_and_dips',
+  chips_and_bread = 'chips_and_bread',
+  dairy = 'dairy',
+  drinks = 'drinks',
+  frozen = 'frozen',
+  home = 'home',
+  meat = 'meat',
+  pantry = 'pantry',
+  produce = 'produce',
+}
+
+export enum SECTION_LABELS {
+  bakery = 'Bakery',
+  cheese_and_dips = 'Cheese & dips',
+  chips_and_bread = 'Chips & Bread',
+  dairy = 'Dairy',
+  drinks = 'Drinks',
+  frozen = 'Frozen',
+  home = 'Home',
+  meat = 'Meat',
+  pantry = 'Pantry',
+  produce = 'Produce',
+}
+
 const capitalizeString = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
@@ -11,7 +37,7 @@ type IngredientRowProps = {
   name: string;
   unit: string;
   quantity: string;
-  section: string;
+  section: SECTIONS;
   index: number;
   removeIngredient: (index: number) => void;
 };
@@ -28,7 +54,7 @@ const IngredientRow = ({
     <Table.Td>{capitalizeString(name)}</Table.Td>
     <Table.Td>{unit}</Table.Td>
     <Table.Td>{quantity}</Table.Td>
-    <Table.Td>{section}</Table.Td>
+    <Table.Td>{SECTION_LABELS[section]}</Table.Td>
     <Table.Td>
       <ActionIcon
         color="red.4"

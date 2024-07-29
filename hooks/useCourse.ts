@@ -132,11 +132,23 @@ type Props = {
 };
 
 const useCourse = ({ id: courseId }: Props) => {
-  const [createCourse] = useMutation(createCourseMutation, createCourseNotification);
-  const [updateCourse] = useMutation(updateCourseMutation, updateCourseNotification);
-  const [deleteCourse] = useMutation(deleteCourseMutation, deleteCourseNotification);
-
   const { data, refetch, loading } = useQuery(getCoursesQuery);
+  const refetchQueries = [getCoursesQuery];
+
+  const [createCourse] = useMutation(createCourseMutation, {
+    ...createCourseNotification,
+    refetchQueries,
+  });
+
+  const [updateCourse] = useMutation(updateCourseMutation, {
+    ...updateCourseNotification,
+    refetchQueries,
+  });
+
+  const [deleteCourse] = useMutation(deleteCourseMutation, {
+    ...deleteCourseNotification,
+    refetchQueries,
+  });
 
   const course = data?.getCourses.find((course: Course) => course.id === courseId);
 

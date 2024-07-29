@@ -56,11 +56,7 @@ const Courses = () => {
 
   const handleAddMealClick = () => router.push('/courses/create');
 
-  const { data, refetch } = useQuery(getCoursesQuery);
-
-  useEffect(() => {
-    refetch();
-  }, []);
+  const { data } = useQuery(getCoursesQuery);
 
   const courses = filteredCourses(data?.getCourses || [], search, type);
 
